@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="同じ国ボールをくっつけて、ひとつ大きい国を生み出そう！ たまごチャンネル（国ボールのゆる雑学チャンネル）のパズルゲーム。">
-<meta property="og:title" content="国ボール くっつけパズル｜たまごチャンネル">
+<meta name="description" content="同じ国ボールをくっつけて、ひとつ大きい国を生み出そう！ たまごボール（国ボールのゆる雑学チャンネル）のパズルゲーム。">
+<meta property="og:title" content="国ボール くっつけパズル｜たまごボール">
 <meta property="og:description" content="同じ国ボールをくっつけて、ひとつ大きい国を生み出そう！ さいごはロシアを目指せ！">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#7CCBF0">
@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <style>
-  /* 単一テーマ：たまごチャンネルの空（第7話の万国旗の空） */
+  /* 単一テーマ：たまごボールの空（第7話の万国旗の空） */
   :root {
     color-scheme: light;
     --ink: #1D2742;
@@ -129,7 +129,7 @@
 
 <div class="app">
   <div class="topbar">
-    <div class="brand"><canvas id="brandBall" width="48" height="48"></canvas><span>たまごチャンネル</span></div>
+    <div class="brand"><canvas id="brandBall" width="48" height="48"></canvas><span>たまごボール</span></div>
     <div class="toggles"><button class="ghost" id="musicBtn" type="button">おんがく：オン</button><button class="ghost" id="soundBtn" type="button">おと：オン</button></div>
   </div>
   <div class="stage" id="stage">
@@ -170,7 +170,7 @@
   const POINTS = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55];
   const DROP_TIERS = [0, 0, 1, 1, 2, 2, 3, 4];
   const INK = '#1D2742';
-  // たまごチャンネルのURL（空のときはボタンを出さない）
+  // たまごボールのURL（空のときはボタンを出さない）
   const CHANNEL_URL = 'https://www.youtube.com/@%E3%81%9F%E3%81%BE%E3%81%94%E3%83%9C%E3%83%BC%E3%83%AB-f2j';
   const ytLink = () => CHANNEL_URL ? `<a class="yt" href="${CHANNEL_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>YouTubeチャンネルを見る</a>` : '';
 
@@ -717,7 +717,7 @@
   function showStart() {
     overlay.hidden = false;
     overlay.innerHTML = `<div class="card">
-      <h1><small>たまごチャンネル</small>国ボール<br>くっつけパズル</h1>
+      <h1><small>たまごボール</small>国ボール<br>くっつけパズル</h1>
       <div class="demo"><span id="d1"></span>＋<span id="d2"></span>＝<span id="d3"></span></div>
       <p class="lead">同じ国ボールが ぶつかると、<br>ひとつ大きい国が 生まれるよ！<br>さいごは ロシアを 目指そう！</p>
       <dl class="howto">
