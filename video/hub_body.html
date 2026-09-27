@@ -1,0 +1,159 @@
+<title>たまごボール ゲーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+  /* 単一テーマ：たまごボールの空（第7話の万国旗の空） */
+  :root {
+    color-scheme: light;
+    --ink: #1D2742;
+    --ink-soft: #4A5677;
+    --egg: #FFF3D1;
+    --paper: #FFFFFF;
+    --gold: #F5B700;
+    --red: #E0302E;
+    --display: "Mochiy Pop One", "Hiragino Maru Gothic ProN", "Zen Maru Gothic", sans-serif;
+    --body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  body {
+    margin: 0; min-height: 100%;
+    background: linear-gradient(180deg, #7CCBF0 0%, #D8F1FC 70%) fixed, #D8F1FC;
+    color: var(--ink); font-family: var(--body); font-weight: 700; line-height: 1.6;
+  }
+  .app { max-width: 480px; margin: 0 auto; padding-inline: 16px; padding-block: 0 32px; box-sizing: border-box; }
+  .bunting { position: relative; height: 46px; overflow: hidden; margin-inline: -16px; }
+  .bunting-row { position: absolute; inset: 0; display: flex; justify-content: space-between; padding-inline: 8px; }
+  .bunting-row canvas { width: 26px; height: 18px; margin-top: 8px; }
+  .bunting-row canvas:nth-child(odd) { transform: rotate(-4deg); }
+  .bunting-row canvas:nth-child(even) { transform: rotate(4deg); margin-top: 12px; }
+
+  .hero { display: grid; justify-items: center; text-align: center; padding-block: 8px 6px; }
+  .hero canvas { width: 110px; height: 110px; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-6px); } }
+  h1 {
+    margin: 4px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(34px, 10vw, 44px); line-height: 1.1;
+    color: var(--paper); -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; text-wrap: balance;
+  }
+  h1 small { display: block; font-size: .46em; -webkit-text-stroke-width: 5px; color: var(--gold); }
+  .tagline { margin: 6px 0 0; font-size: 14px; color: var(--ink-soft); }
+
+  .games { display: grid; gap: 14px; margin-top: 18px; }
+  .game {
+    display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: center; text-decoration: none; color: var(--ink);
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 20px; padding: 12px 14px 12px 10px;
+    box-shadow: 0 6px 0 var(--ink); transition: transform .08s, box-shadow .08s; position: relative;
+  }
+  .game:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--ink); }
+  .game:focus-visible, .yt:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .game .icon { height: 72px; display: flex; align-items: center; justify-content: center; gap: 2px; font-family: var(--display); }
+  .game .icon canvas { flex: none; }
+  .game b { display: block; font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.25; }
+  .game span.sub { display: block; font-size: 13px; color: var(--ink-soft); line-height: 1.45; margin-top: 2px; }
+  .new {
+    position: absolute; top: -12px; right: 14px; font-size: 12px; letter-spacing: .06em; color: var(--paper);
+    background: var(--red); border: 2.5px solid var(--ink); border-radius: 999px; padding: 0 10px;
+  }
+  .play { display: inline-block; margin-top: 6px; font-size: 13px; background: var(--gold); border: 2px solid var(--ink); border-radius: 999px; padding: 0 12px; }
+
+  .yt-wrap { display: grid; justify-items: center; margin-top: 26px; gap: 8px; }
+  .yt {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: var(--paper); text-decoration: none;
+    background: var(--red); border: 3px solid var(--ink); border-radius: 999px; padding: 8px 18px 8px 12px; box-shadow: 0 4px 0 var(--ink);
+  }
+  .yt svg { width: 26px; height: 18px; }
+  .yt:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+  .note { margin: 0; font-size: 12px; font-weight: 500; color: var(--ink-soft); text-align: center; text-wrap: balance; }
+  @media (prefers-reduced-motion: reduce) { .hero canvas { animation: none; } }
+</style>
+
+<div class="app">
+  <div class="bunting" aria-hidden="true"><div class="bunting-row" id="bunting"></div></div>
+  <section class="hero">
+    <canvas id="heroBall" width="220" height="220" aria-hidden="true"></canvas>
+    <h1><small>ゲームで あそぼう！</small>たまごボール</h1>
+    <p class="tagline">国ボールたちと、世界の「へぇ〜」をあつめよう</p>
+  </section>
+
+  <nav class="games" aria-label="ゲームをえらぶ">
+    <a class="game" href="kuttsuke/">
+      <span class="new">NEW</span>
+      <span class="icon" id="iconPuzzle"></span>
+      <span><b>国ボール<br>くっつけパズル</b><span class="sub">同じ国を くっつけると、ひとつ大きい国に！ さいごは ロシアを目指そう</span><span class="play">あそぶ ▶</span></span>
+    </a>
+    <a class="game" href="quiz/">
+      <span class="icon" id="iconQuiz"></span>
+      <span><b>国旗クイズ</b><span class="sub">国旗・大きさくらべ・ことば・パラオさがし。動画を見た人は きっとわかる！</span><span class="play">あそぶ ▶</span></span>
+    </a>
+  </nav>
+
+  <div class="yt-wrap">
+    <a class="yt" href="https://www.youtube.com/@%E3%81%9F%E3%81%BE%E3%81%94%E3%83%9C%E3%83%BC%E3%83%AB-f2j" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>YouTubeチャンネルを見る</a>
+    <p class="note">小学4年生の息子とパパで作っている、<br>国ボールのゆる雑学チャンネルのゲームです。</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const INK = '#1D2742';
+  function paintBody(ctx, c, r) {
+    const h3 = (cols) => cols.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(-r, -r + i * 2 * r / 3 - .5, 2 * r, 2 * r / 3 + 1); });
+    const v3 = (cols) => cols.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(-r + i * 2 * r / 3 - .5, -r, 2 * r / 3 + 1, 2 * r); });
+    const dot = (x, y, rr, col) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, rr, 0, 7); ctx.fill(); };
+    switch (c) {
+      case 'jp': ctx.fillStyle = '#fff'; ctx.fillRect(-r, -r, 2 * r, 2 * r); dot(0, .08 * r, .42 * r, '#D7263D'); break;
+      case 'de': h3(['#1B1B1B', '#DD0000', '#FFCE00']); break;
+      case 'ru': h3(['#fff', '#0039A6', '#D52B1E']); break;
+      case 'fr': v3(['#002395', '#fff', '#ED2939']); break;
+      case 'it': v3(['#009246', '#fff', '#CE2B37']); break;
+      case 'in': h3(['#FF9933', '#fff', '#138808']); ctx.strokeStyle = '#000080'; ctx.lineWidth = Math.max(1, r * .05); ctx.beginPath(); ctx.arc(0, 0, .2 * r, 0, 7); ctx.stroke(); break;
+      case 'pw': ctx.fillStyle = '#4AADD6'; ctx.fillRect(-r, -r, 2 * r, 2 * r); dot(-.14 * r, .08 * r, .42 * r, '#FFDE00'); break;
+      case 'br':
+        ctx.fillStyle = '#009C3B'; ctx.fillRect(-r, -r, 2 * r, 2 * r);
+        ctx.fillStyle = '#FFDF00'; ctx.beginPath(); ctx.moveTo(-.86 * r, .08 * r); ctx.lineTo(0, -.62 * r); ctx.lineTo(.86 * r, .08 * r); ctx.lineTo(0, .78 * r); ctx.closePath(); ctx.fill();
+        dot(0, .08 * r, .36 * r, '#002776'); break;
+      case 'us': {
+        for (let i = 0; i < 13; i++) { ctx.fillStyle = i % 2 ? '#fff' : '#B22234'; ctx.fillRect(-r, -r + i * 2 * r / 13, 2 * r, 2 * r / 13 + .5); }
+        ctx.fillStyle = '#3C3B6E'; ctx.fillRect(-r, -r, .92 * r, 1.08 * r);
+      }
+    }
+  }
+  function drawBall(ctx, c, r, eye) {
+    ctx.save(); ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.save(); ctx.clip(); paintBody(ctx, c, r);
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.ellipse(-.34 * r, -.52 * r, .26 * r, .14 * r, -.45, 0, 7); ctx.fill();
+    ctx.restore(); ctx.lineWidth = Math.max(1.6, r * .065); ctx.strokeStyle = INK; ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.stroke();
+    const ex = .26 * r, ey = -.18 * r; ctx.lineCap = 'round';
+    for (const s of [-1, 1]) {
+      ctx.beginPath();
+      if (eye === 'smile') { ctx.lineWidth = Math.max(1.4, r * .07); ctx.moveTo(s * ex - .14 * r, ey + .06 * r); ctx.quadraticCurveTo(s * ex, ey - .16 * r, s * ex + .14 * r, ey + .06 * r); ctx.stroke(); }
+      else { ctx.ellipse(s * ex, ey, .14 * r, .2 * r, 0, 0, 7); ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = Math.max(1, r * .05); ctx.stroke(); }
+    }
+    ctx.restore();
+  }
+  function ballCanvas(c, px, eye) {
+    const el = document.createElement('canvas'); el.width = el.height = px * 2; el.style.width = el.style.height = px + 'px';
+    const x = el.getContext('2d'); x.translate(px, px); drawBall(x, c, px * .88, eye); return el;
+  }
+  const hero = document.getElementById('heroBall').getContext('2d');
+  hero.translate(110, 110); drawBall(hero, 'jp', 100, 'smile');
+
+  const puzzle = document.getElementById('iconPuzzle');
+  puzzle.append(ballCanvas('de', 25), '＋', ballCanvas('de', 25));
+  const quiz = document.getElementById('iconQuiz');
+  const flag = document.createElement('canvas'); flag.width = 160; flag.height = 112; flag.style.width = '80px'; flag.style.height = '56px';
+  const f = flag.getContext('2d');
+  f.fillStyle = '#009C3B'; f.fillRect(0, 0, 160, 112);
+  f.fillStyle = '#FFDF00'; f.beginPath(); f.moveTo(14, 56); f.lineTo(80, 10); f.lineTo(146, 56); f.lineTo(80, 102); f.closePath(); f.fill();
+  f.fillStyle = '#002776'; f.beginPath(); f.arc(80, 56, 28, 0, 7); f.fill();
+  f.strokeStyle = INK; f.lineWidth = 6; f.strokeRect(3, 3, 154, 106);
+  quiz.append(flag);
+
+  const row = document.getElementById('bunting');
+  ['jp', 'us', 'de', 'pw', 'ru', 'in', 'fr', 'it', 'br', 'jp', 'us', 'de', 'pw', 'ru'].forEach(c => {
+    const el = document.createElement('canvas'); el.width = 52; el.height = 36;
+    const x = el.getContext('2d'); x.save(); x.translate(26, 18); x.scale(1, .7); paintBody(x, c, 26); x.restore();
+    x.strokeStyle = 'rgba(29,39,66,.4)'; x.lineWidth = 2; x.strokeRect(1, 1, 50, 34);
+    row.append(el);
+  });
+})();
+</script>

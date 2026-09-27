@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>short</title>
+<link rel="stylesheet" href="fonts/mochiy/400.css">
+<link rel="stylesheet" href="fonts/zen/700.css">
+<link rel="stylesheet" href="fonts/zen/900.css">
+<style>
+  :root { --ink: #1D2742; --gold: #F5B700; --egg: #FFF3D1; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  body {
+    background: linear-gradient(180deg, #6EC3EE 0%, #BFE7FA 55%, #E4F6FD 100%);
+    font-family: "Zen Maru Gothic", sans-serif; font-weight: 700; color: var(--ink);
+    position: relative;
+  }
+  .cloud { position: absolute; background: #fff; border-radius: 999px; opacity: .9; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+  .cloud::before { width: 55%; height: 170%; left: 12%; bottom: 20%; }
+  .cloud::after { width: 40%; height: 130%; right: 12%; bottom: 25%; }
+  .c1 { width: 260px; height: 70px; left: 60px; top: 520px; animation: drift 30s linear infinite; }
+  .c2 { width: 200px; height: 56px; right: 40px; top: 860px; animation: drift 24s linear infinite reverse; }
+  .c3 { width: 300px; height: 80px; left: 380px; top: 1500px; animation: drift 36s linear infinite; }
+  @keyframes drift { 50% { transform: translateX(60px); } }
+  #bunting { position: absolute; left: 0; top: 0; width: 1080px; height: 130px; }
+
+  .layer { position: absolute; inset: 0; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  .layer.on { opacity: 1; }
+
+  /* テロップ */
+  .telop {
+    position: absolute; left: 40px; right: 40px; top: 150px; text-align: center;
+    font-family: "Mochiy Pop One", sans-serif; font-size: 104px; line-height: 1.18; color: #fff;
+    -webkit-text-stroke: 22px var(--ink); paint-order: stroke fill; letter-spacing: .02em;
+    transform: scale(.6); opacity: 0; transition: transform .28s cubic-bezier(.2,1.6,.5,1), opacity .15s;
+  }
+  .telop.on { transform: none; opacity: 1; }
+  .telop .gold { color: var(--gold); }
+  .telop.small { font-size: 84px; }
+
+  /* セリフの吹き出し */
+  .bubble {
+    position: absolute; left: 50px; right: 50px; bottom: 90px; background: #fff; border: 10px solid var(--ink);
+    border-radius: 40px; padding: 26px 36px 32px; box-shadow: 0 14px 0 var(--ink);
+    opacity: 0; transform: translateY(30px); transition: opacity .18s, transform .25s cubic-bezier(.2,1.4,.5,1);
+  }
+  .bubble.on { opacity: 1; transform: none; }
+  .bubble .chip {
+    display: inline-block; font-size: 38px; padding: 0 26px; border-radius: 999px; border: 6px solid var(--ink);
+    background: var(--chip); margin-bottom: 8px;
+  }
+  .bubble p { margin: 0; font-size: 66px; line-height: 1.3; font-weight: 900; }
+
+  /* シーン1〜2 */
+  #egg { position: absolute; width: 420px; left: 330px; top: 700px; }
+  #jp { position: absolute; width: 400px; height: 400px; left: 340px; top: 760px; transform: scale(0); transition: transform .5s cubic-bezier(.2,1.6,.5,1), left .6s, top .6s, width .6s, height .6s; }
+  #us { position: absolute; width: 380px; height: 380px; left: 1200px; top: 800px; transition: left .55s cubic-bezier(.2,1.3,.5,1); }
+
+  /* シーン3：タイトル */
+  .title {
+    position: absolute; left: 60px; right: 60px; top: 520px; background: #fff; border: 12px solid var(--ink); border-radius: 60px;
+    box-shadow: 0 20px 0 var(--ink); padding: 60px 40px 70px; text-align: center; transform: scale(.5); opacity: 0;
+    transition: transform .4s cubic-bezier(.2,1.6,.5,1), opacity .2s;
+  }
+  .title.on { transform: none; opacity: 1; }
+  .title small { display: block; font-family: "Mochiy Pop One"; font-size: 64px; color: var(--gold); -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; }
+  .title b { display: block; font-family: "Mochiy Pop One"; font-weight: 400; font-size: 120px; line-height: 1.12; color: #fff; -webkit-text-stroke: 24px var(--ink); paint-order: stroke fill; margin-top: 16px; }
+  .eq { display: flex; justify-content: center; align-items: center; gap: 24px; margin-top: 50px; font-family: "Mochiy Pop One"; font-size: 90px; }
+
+  /* シーン4：ゲーム画面 */
+  .phone {
+    position: absolute; left: 214px; top: 330px; width: 623px; height: 1212px; border: 14px solid var(--ink); border-radius: 70px;
+    background: #111; box-shadow: 0 22px 0 var(--ink); overflow: hidden;
+  }
+  .phone iframe { position: absolute; left: 0; top: 0; width: 450px; height: 875px; border: 0; transform-origin: 0 0; transform: scale(1.385); background: #9EDCF7; }
+
+  /* シーン5：ならび */
+  .rows { position: absolute; left: 0; right: 0; top: 560px; display: grid; gap: 40px; justify-items: center; }
+  .row { display: flex; align-items: flex-end; gap: 14px; }
+  .row canvas { transform: scale(0); transition: transform .35s cubic-bezier(.2,1.6,.5,1); }
+  .row canvas.on { transform: none; }
+  .arrow { position: absolute; left: 70px; right: 70px; top: 1320px; display: flex; justify-content: space-between; font-size: 48px; font-family: "Mochiy Pop One"; }
+
+  /* シーン6：さいご */
+  #endBall { position: absolute; left: 390px; top: 640px; width: 300px; height: 300px; }
+  .end-lines { position: absolute; left: 60px; right: 60px; top: 1000px; display: grid; gap: 30px; justify-items: center; text-align: center; }
+  .pill { font-size: 54px; background: var(--gold); border: 8px solid var(--ink); border-radius: 999px; padding: 10px 40px; box-shadow: 0 10px 0 var(--ink); }
+  .url { white-space: nowrap; font-size: 31px; background: #fff; border: 6px solid var(--ink); border-radius: 24px; padding: 12px 26px; }
+  .end-sub { font-size: 50px; font-weight: 900; }
+</style>
+</head>
+<body>
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  <canvas id="bunting" width="1080" height="130"></canvas>
+
+  <!-- シーン1〜2 -->
+  <div class="layer on" id="s12">
+    <svg id="egg" viewBox="0 0 100 120" aria-hidden="true">
+      <defs>
+        <clipPath id="eggTop"><polygon points="0,0 100,0 100,60 88,67 76,58 64,67 52,58 40,67 28,58 16,67 0,58"/></clipPath>
+        <clipPath id="eggBot"><polygon points="0,58 16,67 28,58 40,67 52,58 64,67 76,58 88,67 100,60 100,120 0,120"/></clipPath>
+      </defs>
+      <g id="eggBottom" clip-path="url(#eggBot)">
+        <path d="M50 4 C22 4 8 52 8 78 C8 104 27 117 50 117 C73 117 92 104 92 78 C92 52 78 4 50 4Z" fill="#FFF3D1" stroke="#1D2742" stroke-width="3.5"/>
+        <polyline points="8,58 16,67 28,58 40,67 52,58 64,67 76,58 88,67 94,62" fill="none" stroke="#1D2742" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+      <g id="eggTopG" clip-path="url(#eggTop)">
+        <path d="M50 4 C22 4 8 52 8 78 C8 104 27 117 50 117 C73 117 92 104 92 78 C92 52 78 4 50 4Z" fill="#FFF3D1" stroke="#1D2742" stroke-width="3.5"/>
+        <polyline points="8,58 16,67 28,58 40,67 52,58 64,67 76,58 88,67 94,62" fill="none" stroke="#1D2742" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+    </svg>
+    <canvas id="jp" width="800" height="800"></canvas>
+    <canvas id="us" width="760" height="760"></canvas>
+  </div>
+
+  <!-- シーン3 -->
+  <div class="layer" id="s3">
+    <div class="title" id="title"><small>たまごボール</small><b>国ボール<br>くっつけパズル</b><div class="eq" id="eq"></div></div>
+  </div>
+
+  <!-- シーン4 -->
+  <div class="layer" id="s4">
+    <div class="phone"><iframe id="game" src="game.html" title="game"></iframe></div>
+  </div>
+
+  <!-- シーン5 -->
+  <div class="layer" id="s5">
+    <div class="rows"><div class="row" id="row1"></div><div class="row" id="row2"></div></div>
+    <div class="arrow"><span>← 小さい国</span><span>大きい国 →</span></div>
+  </div>
+
+  <!-- シーン6 -->
+  <div class="layer" id="s6">
+    <canvas id="endBall" width="600" height="600"></canvas>
+    <div class="end-lines">
+      <div class="pill">むりょう・とうろく なし</div>
+      <div class="end-sub">スコアを コメントで おしえてね！</div>
+      <div class="url">keiichiroupcx125-arch.github.io/tamago-channel-game</div>
+    </div>
+  </div>
+
+  <div class="telop" id="telop"></div>
+  <div class="bubble" id="bubble"><span class="chip" id="chip"></span><p id="line"></p></div>
+
+<script>
+const INK = '#1D2742';
+const CHIP = { jp: '#FFFFFF', us: '#FF6B6F', de: '#FFD23F', pw: '#86D9F7', ru: '#D3DDEE', in: '#FFB877' };
+const NAME = { jp: '日本', us: 'アメリカ', de: 'ドイツ', pw: 'パラオ', ru: 'ロシア', in: 'インド' };
+function paintBody(ctx, c, r) {
+  const h3 = (cols) => cols.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(-r, -r + i * 2 * r / 3 - .5, 2 * r, 2 * r / 3 + 1); });
+  const v3 = (cols) => cols.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(-r + i * 2 * r / 3 - .5, -r, 2 * r / 3 + 1, 2 * r); });
+  const dot = (x, y, rr, col) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, rr, 0, 7); ctx.fill(); };
+  switch (c) {
+    case 'jp': ctx.fillStyle = '#fff'; ctx.fillRect(-r, -r, 2 * r, 2 * r); dot(0, .08 * r, .42 * r, '#D7263D'); break;
+    case 'de': h3(['#1B1B1B', '#DD0000', '#FFCE00']); break;
+    case 'ru': h3(['#fff', '#0039A6', '#D52B1E']); break;
+    case 'fr': v3(['#002395', '#fff', '#ED2939']); break;
+    case 'it': v3(['#009246', '#fff', '#CE2B37']); break;
+    case 'in': h3(['#FF9933', '#fff', '#138808']); ctx.strokeStyle = '#000080'; ctx.lineWidth = Math.max(1, r * .05); ctx.beginPath(); ctx.arc(0, 0, .2 * r, 0, 7); ctx.stroke(); break;
+    case 'pw': ctx.fillStyle = '#4AADD6'; ctx.fillRect(-r, -r, 2 * r, 2 * r); dot(-.14 * r, .08 * r, .42 * r, '#FFDE00'); break;
+    case 'ch': ctx.fillStyle = '#DA291C'; ctx.fillRect(-r, -r, 2 * r, 2 * r); ctx.fillStyle = '#fff'; ctx.fillRect(-.16 * r, -.45 * r, .32 * r, 1.1 * r); ctx.fillRect(-.55 * r, -.06 * r, 1.1 * r, .32 * r); break;
+    case 'gr': {
+      for (let i = 0; i < 9; i++) { ctx.fillStyle = i % 2 ? '#fff' : '#0D5EAF'; ctx.fillRect(-r, -r + i * 2 * r / 9 - .3, 2 * r, 2 * r / 9 + .6); }
+      const s = 10 * r / 9; ctx.fillStyle = '#0D5EAF'; ctx.fillRect(-r, -r, s, s);
+      ctx.fillStyle = '#fff'; ctx.fillRect(-r + .3 * s, -r, .2 * s, s); ctx.fillRect(-r, -r + .4 * s, s, .2 * s); break;
+    }
+    case 'br':
+      ctx.fillStyle = '#009C3B'; ctx.fillRect(-r, -r, 2 * r, 2 * r);
+      ctx.fillStyle = '#FFDF00'; ctx.beginPath(); ctx.moveTo(-.86 * r, .08 * r); ctx.lineTo(0, -.62 * r); ctx.lineTo(.86 * r, .08 * r); ctx.lineTo(0, .78 * r); ctx.closePath(); ctx.fill();
+      dot(0, .08 * r, .36 * r, '#002776'); break;
+    case 'us': {
+      for (let i = 0; i < 13; i++) { ctx.fillStyle = i % 2 ? '#fff' : '#B22234'; ctx.fillRect(-r, -r + i * 2 * r / 13, 2 * r, 2 * r / 13 + .5); }
+      ctx.fillStyle = '#3C3B6E'; ctx.fillRect(-r, -r, .92 * r, 1.08 * r);
+      ctx.fillStyle = '#fff';
+      for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) { ctx.beginPath(); ctx.arc(-r + .2 * r + b * .18 * r + (a % 2) * .08 * r, -r + .24 * r + a * .2 * r, .035 * r, 0, 7); ctx.fill(); }
+    }
+  }
+}
+function drawBall(ctx, c, r, eye = 'normal') {
+  ctx.save(); ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.save(); ctx.clip(); paintBody(ctx, c, r);
+  ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.ellipse(-.34 * r, -.52 * r, .26 * r, .14 * r, -.45, 0, 7); ctx.fill();
+  ctx.restore(); ctx.lineWidth = Math.max(1.6, r * .065); ctx.strokeStyle = INK; ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.stroke();
+  const ex = .26 * r, ey = -.18 * r; ctx.lineCap = 'round';
+  for (const s of [-1, 1]) {
+    ctx.beginPath();
+    if (eye === 'normal') { ctx.ellipse(s * ex, ey, .14 * r, .2 * r, 0, 0, 7); ctx.fillStyle = '#fff'; ctx.fill(); ctx.lineWidth = Math.max(1, r * .05); ctx.stroke(); }
+    else {
+      ctx.lineWidth = Math.max(1.4, r * .07); const w = .14 * r;
+      if (eye === 'smile') { ctx.moveTo(s * ex - w, ey + .06 * r); ctx.quadraticCurveTo(s * ex, ey - .16 * r, s * ex + w, ey + .06 * r); }
+      else { ctx.moveTo(s * ex - w, ey); ctx.quadraticCurveTo(s * ex, ey + .12 * r, s * ex + w, ey); }
+      ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+function paintOn(canvas, c, eye) { const x = canvas.getContext('2d'), s = canvas.width; x.clearRect(0, 0, s, s); x.save(); x.translate(s / 2, s / 2); drawBall(x, c, s * .46, eye); x.restore(); }
+function ballCanvas(c, px, eye) { const el = document.createElement('canvas'); el.width = el.height = px * 2; el.style.width = el.style.height = px + 'px'; paintOn(el, c, eye); return el; }
+
+// 万国旗
+(() => {
+  const x = document.getElementById('bunting').getContext('2d');
+  x.strokeStyle = 'rgba(29,39,66,.6)'; x.lineWidth = 4; x.beginPath(); x.moveTo(-10, 20); x.quadraticCurveTo(540, 90, 1090, 20); x.stroke();
+  const codes = ['jp', 'us', 'de', 'pw', 'ru', 'in', 'fr', 'it', 'br', 'ch', 'gr', 'jp'];
+  codes.forEach((c, i) => {
+    const t = (i + .5) / codes.length, px = -10 + t * 1100, py = (1 - t) * (1 - t) * 20 + 2 * (1 - t) * t * 90 + t * t * 20;
+    x.save(); x.translate(px, py); x.rotate(Math.sin(i * 1.7) * .08);
+    x.beginPath(); x.rect(-32, 0, 64, 44); x.save(); x.clip(); x.translate(0, 22); x.scale(1, .7); paintBody(x, c, 32); x.restore();
+    x.strokeStyle = 'rgba(29,39,66,.4)'; x.lineWidth = 2; x.strokeRect(-32, 0, 64, 44); x.restore();
+  });
+})();
+
+const $ = (id) => document.getElementById(id);
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+const events = [];
+let T0 = 0;
+const mark = (name, extra) => events.push({ t: (performance.now() - T0) / 1000, name, extra });
+window.__onMerge = (tier) => mark('merge', tier);
+
+function telop(html, cls = '') {
+  const el = $('telop'); el.classList.remove('on'); el.className = 'telop ' + cls;
+  void el.offsetWidth; el.innerHTML = html; if (html) el.classList.add('on');
+}
+function say(c, text) {
+  const b = $('bubble'); b.classList.remove('on'); void b.offsetWidth;
+  $('chip').textContent = NAME[c]; $('chip').style.setProperty('--chip', CHIP[c]); $('line').textContent = text;
+  if (text) b.classList.add('on');
+}
+function hush() { $('bubble').classList.remove('on'); }
+function scene(id) { document.querySelectorAll('.layer').forEach(l => l.classList.toggle('on', l.id === id)); }
+
+async function run() {
+  paintOn($('jp'), 'jp', 'normal'); paintOn($('us'), 'us', 'normal'); paintOn($('endBall'), 'jp', 'smile');
+  const eq = $('eq'); eq.append(ballCanvas('de', 130), '＋', ballCanvas('de', 130), '＝', ballCanvas('jp', 150, 'smile'));
+  const T = [13, 17, 23, 28, 34, 41, 48, 56, 64, 76, 92], C = ['pw', 'ch', 'gr', 'it', 'de', 'jp', 'fr', 'in', 'br', 'us', 'ru'];
+  C.forEach((c, i) => $(i < 6 ? 'row1' : 'row2').append(ballCanvas(c, Math.round(T[i] * 2 * (i < 6 ? 2 : 1.36)), c === 'pw' ? 'smile' : 'normal')));
+  await document.fonts.ready;
+  await new Promise(r => { const f = $('game'); if (f.contentWindow && f.contentWindow.__demo) r(); else f.addEventListener('load', () => setTimeout(r, 300)); });
+  await sleep(400);
+
+  T0 = performance.now(); window.__t0wall = Date.now(); mark('start');
+  // シーン1：たまごが転がってきて、われる
+  const egg = $('egg');
+  egg.animate([{ transform: 'translateX(-900px) rotate(-720deg)' }, { transform: 'none' }], { duration: 1000, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'both' });
+  await sleep(1000); mark('land');
+  egg.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(-8deg)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(0)' }], { duration: 420, iterations: 1 });
+  await sleep(500); mark('crack');
+  $('eggTopG').animate([{ transform: 'none', opacity: 1 }, { transform: 'translate(30px,-90px) rotate(40deg)', opacity: 0 }], { duration: 600, easing: 'ease-in', fill: 'forwards' });
+  $('eggBottom').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 150, fill: 'forwards' });
+  $('jp').style.transform = 'scale(1)'; mark('pop');
+  await sleep(250);
+  telop('たいへん！'); say('jp', 'ゲームが できたよ！');
+  await sleep(1650);
+
+  // シーン2：アメリカ登場
+  const jp = $('jp'); jp.style.left = '90px'; jp.style.top = '820px'; jp.style.width = jp.style.height = '360px';
+  $('us').style.left = '610px'; mark('whoosh');
+  await sleep(350);
+  telop('たまごボールの<br><span class="gold">ゲーム!?</span>', 'small'); say('us', 'ゲームだと!? オレ、ぜったい 勝つぜ！');
+  await sleep(2400);
+
+  // シーン3：タイトル
+  hush(); telop(''); scene('s3'); await sleep(80); $('title').classList.add('on'); mark('title');
+  await sleep(2300);
+
+  // シーン4：ゲーム画面
+  $('title').classList.remove('on'); scene('s4');
+  const G = $('game').contentWindow.__demo;
+  G.start();
+  [[0, -120], [1, 125], [2, -125], [3, 118]].forEach(([t, x], i) => G.add(t, x, -120 - i * 60));
+  telop('同じ国が<br>ぶつかると…', 'small');
+  await sleep(700);
+  G.drop(4, 0); mark('drop');
+  await sleep(1200);
+  G.drop(4, 0); mark('drop');
+  await sleep(650);
+  telop('ドイツ＋ドイツ＝<br><span class="gold">日本!?</span>', 'small'); say('de', '……またか〜！');
+  await sleep(1000);
+  G.drop(5, 0); mark('drop');
+  await sleep(700);
+  telop('どんどん<br><span class="gold">大きい国に！</span>', 'small'); hush();
+  await sleep(700);
+  G.drop(6, 0); mark('drop');
+  await sleep(1400);
+  G.drop(7, 0); mark('drop');
+  await sleep(1400);
+  telop('さいごは<br><span class="gold">あの国…!?</span>', 'small');
+  G.drop(8, 0); mark('drop');
+  await sleep(1500);
+  G.drop(9, 0); mark('drop');
+  await sleep(600);
+  telop('ロシア!!<br><span class="gold">ズシーン!!</span>', 'small'); say('ru', '……ズシーン。世界でいちばん 広い国なんだ。');
+  await sleep(2100);
+
+  // シーン5：ならび
+  hush(); scene('s5');
+  telop('大きさは<br><span class="gold">本当の広さのじゅん！</span>', 'small');
+  const balls = [...document.querySelectorAll('.row canvas')];
+  for (const b of balls) { b.classList.add('on'); mark('tick'); await sleep(120); }
+  say('pw', 'わたしは いちばん 小さいよ〜！');
+  await sleep(2600);
+
+  // シーン6：さいご
+  hush(); scene('s6'); mark('end');
+  $('endBall').animate([{ transform: 'scale(.3)' }, { transform: 'scale(1)' }], { duration: 500, easing: 'cubic-bezier(.2,1.6,.5,1)' });
+  telop('概要欄から<br><span class="gold">あそべるよ！</span>');
+  await sleep(600);
+  say('jp', 'どこまで いけたか、コメントで おしえてね！');
+  await sleep(3800);
+  mark('finish');
+  window.__done = true;
+}
+window.__events = events;
+window.__go = run;
+</script>
+</body>
+</html>
