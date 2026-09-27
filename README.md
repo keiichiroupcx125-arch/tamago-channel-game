@@ -6,4 +6,8 @@
 - 国の並びは本当の広さの順番です（パラオ → スイス → ギリシャ → イタリア → ドイツ → 日本 → フランス → インド → ブラジル → アメリカ → ロシア）
 - たまごのカップからあふれたらおしまい
 
-ファイルは `index.html` 1つだけです。GitHub Pages（Settings → Pages → Branch: main / root）で公開しています。
+- `index.html`：ゲームえらびのページ
+- `kuttsuke/`：国ボール くっつけパズル
+- `quiz/`：国旗クイズ（国旗・大きさくらべ・ことば・パラオをさがせ）
+
+GitHub Pages（Settings → Pages → Branch: main / root）で公開しています。

@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="国旗・大きさくらべ・ことば・パラオさがし。たまごボールの動画を見た人は きっとわかる！">
+<meta property="og:title" content="国旗クイズ｜たまごボール">
+<meta property="og:description" content="国旗・大きさくらべ・ことば・パラオさがし。たまごボールの動画を見た人は きっとわかる！">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#7CCBF0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='white' stroke='%231D2742' stroke-width='6'/%3E%3Ccircle cx='50' cy='54' r='21' fill='%23D7263D'/%3E%3C/svg%3E">
+<style>
+  [hidden] { display: none !important; }
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; height: 100%; }
+  img { max-width: 100%; }
+</style>
+<title>たまごボール 国旗クイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+  /* 単一テーマ：第7話の「万国旗の空」を背景にした、あえて1つの見た目 */
+  :root {
+    color-scheme: light;
+    --sky-top: #7CCBF0;
+    --sky-bottom: #D8F1FC;
+    --ink: #1D2742;
+    --ink-soft: #4A5677;
+    --egg: #FFF3D1;
+    --paper: #FFFFFF;
+    --red: #D7263D;
+    --gold: #F5B700;
+    --ok: #22A95E;
+    --ng: #E0484F;
+    --line: rgba(29, 39, 66, .18);
+    --display: "Mochiy Pop One", "Hiragino Maru Gothic ProN", "Zen Maru Gothic", sans-serif;
+    --body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 70%) fixed, var(--sky-bottom);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-inline: 16px;
+    padding-block: 0 32px;
+    min-height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 万国旗 */
+  .bunting { position: relative; height: 46px; overflow: hidden; margin-inline: -16px; }
+  .bunting::before {
+    content: ""; position: absolute; left: -10px; right: -10px; top: 6px; height: 30px;
+    border-top: 2px solid var(--ink-soft); border-radius: 50% / 100% 100% 0 0; transform: scaleY(-1); transform-origin: top;
+  }
+  .bunting-row { position: absolute; inset: 0; display: flex; justify-content: space-between; padding-inline: 8px; }
+  .bunting-row svg { width: 26px; height: auto; margin-top: 8px; border: 1px solid var(--line); transform-origin: top center; }
+  .bunting-row svg:nth-child(odd) { transform: rotate(-4deg); }
+  .bunting-row svg:nth-child(even) { transform: rotate(4deg); margin-top: 12px; }
+  .bunting-row svg:nth-child(3n) { margin-top: 15px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; }
+  .brand { font-family: var(--display); font-size: 15px; letter-spacing: .02em; display: flex; align-items: center; gap: 6px; }
+  .brand svg { width: 24px; height: 24px; }
+  .ghost {
+    font: inherit; font-size: 13px; color: var(--ink); background: rgba(255,255,255,.6);
+    border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px; cursor: pointer;
+  }
+  .ghost:focus-visible, .btn:focus-visible, .choice:focus-visible, .mode:focus-visible, .palau-hit:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+  .yt {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #fff; text-decoration: none;
+    background: #E0302E; border: 3px solid #1D2742; border-radius: 999px; padding: 6px 16px 6px 10px; box-shadow: 0 4px 0 #1D2742;
+  }
+  .yt svg { width: 24px; height: 17px; flex: none; }
+  .yt:active { transform: translateY(3px); box-shadow: 0 1px 0 #1D2742; }
+  .yt:focus-visible { outline: 3px solid #F5B700; outline-offset: 3px; }
+  a.ghost { text-decoration: none; }
+  /* ボール */
+  .ball { display: block; width: 100%; height: 100%; overflow: visible; }
+
+  /* ホーム */
+  .hero { display: grid; justify-items: center; text-align: center; padding-block: 8px 4px; }
+  .hatch { width: 140px; height: 150px; position: relative; cursor: pointer; border: 0; background: none; padding: 0; }
+  .hatch > * { position: absolute; left: 0; bottom: 0; width: 140px; }
+  .hatch .newball { width: 120px; height: 120px; left: 10px; bottom: 6px; }
+  .hatch .egg { height: 150px; }
+  .play .egg { animation: roll 1.1s cubic-bezier(.3,.7,.4,1) both, wobble .45s 1.1s ease-in-out 2; }
+  .play .egg .top { animation: pop-top .7s 2s ease-in both; transform-origin: 50% 60%; transform-box: fill-box; }
+  .play .egg .bottom { animation: fade .5s 2.2s ease-in both; }
+  .play .newball { animation: born .55s 2.1s cubic-bezier(.2,1.6,.5,1) both; }
+  .done .egg { display: none; }
+  @keyframes roll { from { transform: translateX(-190px) rotate(-360deg); } to { transform: none; } }
+  @keyframes wobble { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-7deg); } 75% { transform: rotate(7deg); } }
+  @keyframes pop-top { to { transform: translate(24px, -70px) rotate(40deg); opacity: 0; } }
+  @keyframes fade { to { opacity: 0; } }
+  @keyframes born { from { transform: scale(.2); opacity: 0; } to { transform: none; opacity: 1; } }
+  h1 {
+    font-family: var(--display); font-weight: 400; font-size: clamp(30px, 9vw, 40px); line-height: 1.15;
+    margin: 6px 0 0; text-wrap: balance; color: var(--paper);
+    -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; letter-spacing: .02em;
+  }
+  h1 small { display: block; font-size: .5em; -webkit-text-stroke-width: 5px; color: var(--gold); }
+  .tagline { margin: 6px 0 0; font-size: 14px; color: var(--ink-soft); }
+
+  .modes { display: grid; gap: 12px; margin-top: 16px; }
+  .mode {
+    font: inherit; color: var(--ink); text-align: left; cursor: pointer;
+    display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 12px;
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 18px;
+    padding: 10px 14px 10px 10px; box-shadow: 0 5px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+  }
+  .mode:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  .mode-icon { width: 64px; height: 52px; display: grid; place-items: center; }
+  .mode-icon svg { max-width: 60px; max-height: 50px; }
+  .mode-name { font-family: var(--display); font-weight: 400; font-size: 17px; line-height: 1.3; display: block; }
+  .mode-sub { font-size: 12.5px; color: var(--ink-soft); display: block; }
+  .mode-side { display: grid; justify-items: end; gap: 4px; }
+  .ep { font-size: 11px; letter-spacing: .06em; background: var(--egg); border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; white-space: nowrap; }
+  .best { font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .note { margin-top: 22px; font-size: 12px; font-weight: 500; color: var(--ink-soft); text-align: center; text-wrap: balance; }
+
+  /* セリフ */
+  .say { display: grid; grid-template-columns: 52px 1fr; align-items: start; gap: 8px; }
+  .say.right { grid-template-columns: 1fr 52px; }
+  .say.right .say-ball { order: 2; }
+  .say-ball { width: 52px; height: 52px; margin-top: 4px; }
+  .bubble {
+    position: relative; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px;
+    padding: 6px 12px 8px; min-width: 0;
+  }
+  .bubble::before {
+    content: ""; position: absolute; left: -11px; top: 16px; width: 14px; height: 14px; background: var(--paper);
+    border-left: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: rotate(45deg);
+  }
+  .say.right .bubble::before { left: auto; right: -11px; transform: rotate(-135deg); }
+  .chip {
+    display: inline-block; font-size: 11px; line-height: 1.5; padding: 0 8px; border-radius: 999px;
+    background: var(--chip, #fff); border: 2px solid var(--ink); margin-bottom: 2px;
+  }
+  .bubble p { margin: 0; font-size: 16px; line-height: 1.5; text-wrap: pretty; }
+
+  /* クイズ */
+  .qhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+  .qtitle { font-family: var(--display); font-size: 14px; }
+  .dots { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .dots i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--ink); background: rgba(255,255,255,.6); }
+  .dots i.ok { background: var(--ok); } .dots i.ng { background: var(--ng); } .dots i.now { background: var(--gold); }
+  .qnum { font-family: var(--display); font-size: 22px; margin: 10px 0 8px; }
+  .qnum span { font-size: 14px; color: var(--ink-soft); font-family: var(--body); margin-left: 6px; font-variant-numeric: tabular-nums; }
+  .stage { display: grid; gap: 12px; }
+  .flagcard {
+    justify-self: center; background: var(--paper); border: 3px solid var(--ink); border-radius: 14px;
+    padding: 12px; box-shadow: 0 5px 0 var(--ink); width: min(240px, 70%);
+  }
+  .flagcard svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+  .flagcard.square { width: min(150px, 45%); }
+  .prompt { font-family: var(--display); font-size: 20px; text-align: center; margin: 4px 0; text-wrap: balance; }
+  .metric { justify-self: center; font-size: 13px; background: var(--ink); color: var(--paper); border-radius: 999px; padding: 1px 12px; }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .choice {
+    font: inherit; font-size: 17px; color: var(--ink); cursor: pointer; min-height: 60px;
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 8px;
+    box-shadow: 0 4px 0 var(--ink); display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-align: center; line-height: 1.3; transition: transform .08s, box-shadow .08s, background .15s;
+  }
+  .choice:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+  .choice:disabled { cursor: default; }
+  .choice .mini { width: 34px; height: 34px; flex: none; }
+  .choice.ok { background: var(--ok); color: #fff; }
+  .choice.ng { background: var(--ng); color: #fff; }
+  .choice.dim { opacity: .45; }
+
+  /* どっちが大きい？ */
+  .vs { grid-template-columns: 1fr 1fr; align-items: end; min-height: 230px; }
+  .vs .choice {
+    flex-direction: column; justify-content: flex-end; background: transparent; border: 0; box-shadow: none; min-height: 0; padding: 4px;
+  }
+  .vs .choice:active:not(:disabled) { transform: scale(.96); box-shadow: none; }
+  .vs .grow { width: 110px; height: 110px; transition: width .9s cubic-bezier(.3,1.4,.5,1), height .9s cubic-bezier(.3,1.4,.5,1); }
+  .vs .label {
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; padding: 2px 14px; font-size: 16px;
+    box-shadow: 0 3px 0 var(--ink);
+  }
+  .vs .choice.ok .label { background: var(--ok); color: #fff; }
+  .vs .choice.ng .label { background: var(--ng); color: #fff; }
+  .vs .value { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; min-height: 1.4em; }
+  .vs-mark {
+    grid-column: 1 / -1; justify-self: center; font-family: var(--display); font-size: 18px; margin-top: -6px;
+  }
+
+  .feedback { display: grid; gap: 10px; margin-top: 16px; }
+  .verdict { font-family: var(--display); font-size: 26px; text-align: center; margin: 0; }
+  .verdict.ok { color: var(--ok); } .verdict.ng { color: var(--ng); }
+  .btn {
+    font-family: var(--display); font-size: 18px; color: var(--ink); cursor: pointer;
+    background: var(--gold); border: 3px solid var(--ink); border-radius: 999px; padding: 10px 24px;
+    box-shadow: 0 5px 0 var(--ink); justify-self: center; transition: transform .08s, box-shadow .08s;
+  }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  .btn.plain { background: var(--paper); font-size: 15px; }
+
+  /* けっか */
+  .result { display: grid; justify-items: center; text-align: center; gap: 10px; padding-top: 12px; }
+  .result .bigball { width: 130px; height: 130px; animation: born .6s cubic-bezier(.2,1.6,.5,1) both; }
+  .score { font-family: var(--display); font-size: 54px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .score small { font-size: 22px; color: var(--ink-soft); }
+  .rank {
+    font-family: var(--display); font-size: 24px; color: var(--paper); -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill;
+  }
+  .result .say { text-align: left; width: 100%; }
+  .shot {
+    background: var(--egg); border: 3px dashed var(--ink); border-radius: 14px; padding: 8px 14px; font-size: 14px; width: 100%; box-sizing: border-box;
+  }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+  /* パラオをさがせ */
+  .scene {
+    position: relative; width: 100%; aspect-ratio: 3 / 4; max-height: 62vh; margin-top: 10px;
+    background: radial-gradient(60px 26px at 22% 18%, #fff 60%, transparent 62%),
+                radial-gradient(80px 30px at 78% 12%, #fff 60%, transparent 62%),
+                linear-gradient(180deg, #9EDCF7, #E4F6FD);
+    border: 3px solid var(--ink); border-radius: 18px; overflow: hidden; cursor: crosshair;
+  }
+  .scene .big { position: absolute; transform: translate(-50%, -50%); pointer-events: none; }
+  .palau-hit {
+    position: absolute; transform: translate(-50%, -50%); border: 0; background: transparent; padding: 10px; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .palau-hit .tiny { display: block; }
+  .palau-hit.found .tiny { animation: found .7s ease-out both; }
+  @keyframes found { 40% { transform: scale(3); } to { transform: scale(2.4); } }
+  .miss { position: absolute; transform: translate(-50%, -50%); font-family: var(--display); font-size: 14px; color: var(--ng); pointer-events: none; animation: miss .8s ease-out both; }
+  @keyframes miss { to { transform: translate(-50%, -140%); opacity: 0; } }
+  .hud { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .timer { font-family: var(--display); font-size: 22px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <div class="bunting" aria-hidden="true"><div class="bunting-row" id="bunting"></div></div>
+  <div class="topbar">
+    <a class="ghost" href="../">← ゲームえらび</a>
+    <button class="ghost" id="soundBtn" type="button" aria-pressed="true">おと：オン</button>
+  </div>
+  <main id="screen"></main>
+</div>
+
+<script>
+(() => {
+  /* ---------- キャラクター ---------- */
+  const CH = {
+    jp: { name: '日本',     chip: '#FFFFFF' },
+    us: { name: 'アメリカ', chip: '#FF6B6F' },
+    de: { name: 'ドイツ',   chip: '#FFD23F' },
+    pw: { name: 'パラオ',   chip: '#86D9F7' },
+    ru: { name: 'ロシア',   chip: '#D3DDEE' },
+    in: { name: 'インド',   chip: '#FFB877' },
+  };
+  let uid = 0;
+
+  function eyes(kind) {
+    const one = (x) => {
+      if (kind === 'smile') return `<path d="M${x-7} 45 q7 -10 14 0" fill="none" stroke="#1D2742" stroke-width="3.5" stroke-linecap="round"/>`;
+      if (kind === 'closed') return `<path d="M${x-7} 41 q7 6 14 0" fill="none" stroke="#1D2742" stroke-width="3.5" stroke-linecap="round"/>`;
+      return `<ellipse cx="${x}" cy="41" rx="7" ry="10" fill="#fff" stroke="#1D2742" stroke-width="2.5"/>`;
+    };
+    return one(37) + one(63);
+  }
+
+  function ballBody(c) {
+    switch (c) {
+      case 'jp': return `<rect width="100" height="100" fill="#fff"/><circle cx="50" cy="54" r="21" fill="#D7263D"/>`;
+      case 'de': return `<rect width="100" height="34" fill="#1B1B1B"/><rect y="33" width="100" height="34" fill="#DD0000"/><rect y="66" width="100" height="34" fill="#FFCE00"/>`;
+      case 'ru': return `<rect width="100" height="34" fill="#fff"/><rect y="33" width="100" height="34" fill="#0039A6"/><rect y="66" width="100" height="34" fill="#D52B1E"/>`;
+      case 'pw': return `<rect width="100" height="100" fill="#4AADD6"/><circle cx="43" cy="54" r="21" fill="#FFDE00"/>`;
+      case 'in': return `<rect width="100" height="34" fill="#FF9933"/><rect y="33" width="100" height="34" fill="#fff"/><rect y="66" width="100" height="34" fill="#138808"/><circle cx="50" cy="50" r="10" fill="none" stroke="#000080" stroke-width="2.5"/>`;
+      case 'us': {
+        let s = '';
+        for (let i = 0; i < 13; i++) s += `<rect y="${i * 7.7}" width="100" height="7.8" fill="${i % 2 ? '#fff' : '#B22234'}"/>`;
+        s += `<rect width="46" height="54" fill="#3C3B6E"/>`;
+        for (let r = 0; r < 4; r++) for (let k = 0; k < 4; k++) s += `<circle cx="${10 + k * 9 + (r % 2) * 4}" cy="${12 + r * 10}" r="1.7" fill="#fff"/>`;
+        return s;
+      }
+    }
+    return '';
+  }
+
+  function ball(c, eye = 'normal') {
+    const id = 'b' + (++uid);
+    return `<svg class="ball" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><clipPath id="${id}"><circle cx="50" cy="50" r="46"/></clipPath></defs>
+      <g clip-path="url(#${id})">${ballBody(c)}
+        <ellipse cx="33" cy="24" rx="13" ry="7" fill="#fff" opacity=".35" transform="rotate(-25 33 24)"/>
+      </g>
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#1D2742" stroke-width="3"/>
+      ${eyes(eye)}
+    </svg>`;
+  }
+
+  /* ---------- 国旗 ---------- */
+  function flag(code) {
+    const f = FLAGS[code];
+    return `<svg viewBox="${f.vb}" role="img" aria-label="国旗">${f.draw()}</svg>`;
+  }
+  const bands = (vb, colors, vertical) => ({
+    vb, draw: () => {
+      const [, , w, h] = vb.split(' ').map(Number);
+      return colors.map((c, i) => vertical
+        ? `<rect x="${i * w / colors.length}" width="${w / colors.length + .05}" height="${h}" fill="${c}"/>`
+        : `<rect y="${i * h / colors.length}" width="${w}" height="${h / colors.length + .05}" fill="${c}"/>`).join('');
+    }
+  });
+  const FLAGS = {
+    jp: { vb: '0 0 30 20', draw: () => `<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#BC002D"/>` },
+    ch: { vb: '0 0 32 32', square: true, draw: () => `<rect width="32" height="32" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/>` },
+    se: { vb: '0 0 16 10', draw: () => `<rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/>` },
+    fr: bands('0 0 30 20', ['#002395', '#fff', '#ED2939'], true),
+    it: bands('0 0 30 20', ['#009246', '#fff', '#CE2B37'], true),
+    de: bands('0 0 30 18', ['#000', '#DD0000', '#FFCE00'], false),
+    ru: bands('0 0 30 20', ['#fff', '#0039A6', '#D52B1E'], false),
+    br: { vb: '0 0 20 14', draw: () => `<rect width="20" height="14" fill="#009C3B"/><polygon points="1.7,7 10,1.2 18.3,7 10,12.8" fill="#FFDF00"/><circle cx="10" cy="7" r="3.5" fill="#002776"/><path d="M6.6 6.2 Q10 5.2 13.4 7.6 L13.3 8.2 Q10 5.9 6.55 6.9 Z" fill="#fff"/>` },
+    ca: { vb: '0 0 40 20', draw: () => `<rect width="40" height="20" fill="#fff"/><rect width="10" height="20" fill="#D80621"/><rect x="30" width="10" height="20" fill="#D80621"/><polygon fill="#D80621" points="20,3.2 21.2,5.4 22.6,4.8 22.1,8.2 24.4,6.2 24.9,7.4 27,7 26.3,9.2 27.3,9.7 23.6,12.8 24,14 20.4,13.6 20.4,16.6 19.6,16.6 19.6,13.6 16,14 16.4,12.8 12.7,9.7 13.7,9.2 13,7 15.1,7.4 15.6,6.2 17.9,8.2 17.4,4.8 18.8,5.4"/>` },
+    in: { vb: '0 0 30 20', draw: () => {
+      let spokes = '';
+      for (let i = 0; i < 24; i++) {
+        const a = i * Math.PI / 12;
+        spokes += `<line x1="15" y1="10" x2="${(15 + 2.6 * Math.cos(a)).toFixed(2)}" y2="${(10 + 2.6 * Math.sin(a)).toFixed(2)}" stroke="#06038D" stroke-width=".18"/>`;
+      }
+      return `<rect width="30" height="6.7" fill="#FF9933"/><rect y="6.6" width="30" height="6.8" fill="#fff"/><rect y="13.3" width="30" height="6.7" fill="#138808"/><circle cx="15" cy="10" r="2.8" fill="none" stroke="#06038D" stroke-width=".4"/>${spokes}`;
+    } },
+    kr: { vb: '0 0 30 20', draw: () => {
+      const tri = (x, y, rot, pattern) => {
+        let s = `<g transform="translate(${x} ${y}) rotate(${rot})">`;
+        pattern.forEach((broken, i) => {
+          const yy = -1.55 + i * 1.1;
+          s += broken
+            ? `<rect x="-2" y="${yy}" width="1.75" height=".65" fill="#000"/><rect x=".25" y="${yy}" width="1.75" height=".65" fill="#000"/>`
+            : `<rect x="-2" y="${yy}" width="4" height=".65" fill="#000"/>`;
+        });
+        return s + '</g>';
+      };
+      return `<rect width="30" height="20" fill="#fff"/>
+        <g transform="rotate(33.69 15 10)">
+          <circle cx="15" cy="10" r="5" fill="#0047A0"/>
+          <path d="M10 10 A5 5 0 0 1 20 10 A2.5 2.5 0 0 1 15 10 A2.5 2.5 0 0 0 10 10 Z" fill="#CD2E3A"/>
+        </g>
+        ${tri(7.9, 5.3, -56.31, [0, 0, 0])}${tri(22.1, 14.7, -56.31, [1, 1, 1])}
+        ${tri(22.1, 5.3, 56.31, [1, 0, 1])}${tri(7.9, 14.7, 56.31, [0, 1, 0])}`;
+    } },
+    gr: { vb: '0 0 27 18', draw: () => {
+      let s = '';
+      for (let i = 0; i < 9; i++) s += `<rect y="${i * 2}" width="27" height="2.05" fill="${i % 2 ? '#fff' : '#0D5EAF'}"/>`;
+      return s + `<rect width="10" height="10" fill="#0D5EAF"/><rect x="4" width="2" height="10" fill="#fff"/><rect y="4" width="10" height="2" fill="#fff"/>`;
+    } },
+    pw: { vb: '0 0 30 20', draw: () => `<rect width="30" height="20" fill="#4AADD6"/><circle cx="13" cy="10" r="5.5" fill="#FFDE00"/>` },
+    us: { vb: '0 0 38 20', draw: () => {
+      let s = '';
+      for (let i = 0; i < 13; i++) s += `<rect y="${i * 20 / 13}" width="38" height="${20 / 13 + .03}" fill="${i % 2 ? '#fff' : '#B22234'}"/>`;
+      return s + `<rect width="15.2" height="10.77" fill="#3C3B6E"/>`;
+    } },
+  };
+
+  /* ---------- 問題データ（第2〜7話より） ---------- */
+  const FLAG_QS = [
+    { f: 'ch', a: 'スイス', o: ['スウェーデン', 'デンマーク', 'トルコ'], by: 'de', hint: '赤に、白い十字だ', fact: 'スイスです。赤十字のマークは、この旗の色を反対にしたものなんだ', re: ['pw', 'へえ、知らなかった！'] },
+    { f: 'se', a: 'スウェーデン', o: ['フィンランド', 'ギリシャ', 'ウクライナ'], by: 'pw', hint: '青に、黄色い十字だよ', fact: 'スウェーデンです。北のほうの国には、十字の旗が多いんだよ' },
+    { f: 'fr', a: 'フランス', o: ['イタリア', 'ロシア', 'オランダ'], by: 'us', hint: '青、白、赤のたてじま！', fact: 'フランスです。', re: ['de', 'エッフェル塔のある国だな'] },
+    { f: 'it', a: 'イタリア', o: ['フランス', 'メキシコ', 'アイルランド'], by: 'de', hint: '緑、白、赤……フランスに似ているな', fact: 'イタリアです。色も、ならびも、ちょっとずつちがうんだ', re: ['us', 'ピザとパスタの国だな！'] },
+    { f: 'br', a: 'ブラジル', o: ['ジャマイカ', 'ポルトガル', '南アフリカ'], by: 'us', hint: '緑と黄色、まんなかが青い！', fact: 'ブラジルです。あの青い丸は、夜空の星なんだって', re: ['pw', 'へえ、ロマンチック！'] },
+    { f: 'ca', a: 'カナダ', o: ['スイス', 'ペルー', 'オーストリア'], by: 'pw', hint: '赤と白に、赤い葉っぱ！', fact: 'カナダです。カエデの葉っぱだよ。メープルシロップの国だね' },
+    { f: 'in', a: 'インド', o: ['アイルランド', 'イタリア', 'ニジェール'], by: 'de', hint: 'オレンジと白と緑、まんなかに青い輪', fact: 'インドです。あの輪は、24本の線でできているんだよ' },
+    { f: 'kr', a: '韓国', o: ['中国', 'モンゴル', 'ベトナム'], by: 'pw', hint: '白い旗に、赤と青のうずまき！', fact: '韓国です。日本の、おとなりの国だよ' },
+    { f: 'gr', a: 'ギリシャ', o: ['フィンランド', 'アルゼンチン', 'アメリカ'], by: 'us', hint: '青と白のしまもよう！', fact: 'ギリシャです。オリンピックが生まれた国なんだ' },
+    { f: 'jp', a: '日本', o: ['パラオ', 'バングラデシュ', '韓国'], by: 'pw', hint: 'あっ！ これは……みんなで言おう！', fact: 'ぼくの国旗でした。まんなかの赤い丸は、太陽なんだよ', big: true },
+  ];
+
+  const SIZE_QS = [
+    { kind: 'vs', metric: '広さ', q: '広いのは どっち？', a: 'jp', b: 'de', ans: 'jp',
+      v: { jp: [37.8, '約37.8万km²'], de: [35.8, '約35.8万km²'] },
+      say: ['de', 'ドイツも来たぞ！ 日本より大きいに、決まってるだろ！'],
+      fact: '日本のほうが、ほんの少し広いんだ！', re: ['de', '……あれ？ 日本のほうが、ちょっと大きいぞ!?'] },
+    { kind: 'vs', metric: '広さ', q: '広いのは どっち？', a: 'us', b: 'ru', ans: 'ru',
+      v: { us: [983, '約983万km²'], ru: [1710, '約1710万km²'] },
+      say: ['us', 'ヘイ！ オレは ビッグだろ？ 州も、50こあるんだぜ！'],
+      fact: 'ロシアは 日本の約45倍。世界でいちばん広い国だよ！', re: ['ru', '……ズシーン。こんにちは。ロシアです。よろしくね。'] },
+    { kind: 'text', metric: '広さ', q: '日本の広さは、パラオの 約なん倍？', a: '約800倍', o: ['約8倍', '約80倍'], keep: true,
+      say: ['pw', 'わたしも入れて〜！ ここだよ〜！ 足もと、足もと！'],
+      fact: 'パラオは約460km²。日本とくらべると、豆つぶくらいなんだ', re: ['pw', '小さくても、海は、とってもきれいなんだよ！'] },
+    { kind: 'vs', metric: '人の数', q: '人が多いのは どっち？', a: 'ru', b: 'jp', ans: 'ru',
+      v: { ru: [1.4, '約1億4千万人'], jp: [1.2, '約1億2千万人'] },
+      say: ['jp', '広さでは ロシアが45倍。じゃあ、人の数は？'],
+      fact: 'ロシアのほうが少しだけ多い。でも、ほとんど同じなんだ！', re: ['ru', '寒くて、人が住みにくい場所が、多いんだよ。'] },
+    { kind: 'vs', metric: '人の数', q: '人が多いのは どっち？', a: 'us', b: 'in', ans: 'in',
+      v: { us: [3.5, '約3億5千万人'], in: [14.8, '約14億8千万人'] },
+      say: ['us', 'ヘイ！ オレは、およそ3億5千万人だぜ！'],
+      fact: 'インドは 日本の約12倍。世界でいちばん人が多いよ！', re: ['in', 'ナマステ〜！ インドだよ！ よろしくね！'] },
+    { kind: 'vs', metric: '人の数', q: '人が多いのは どっち？', a: 'de', b: 'jp', ans: 'jp',
+      v: { de: [0.84, '約8400万人'], jp: [1.2, '約1億2千万人'] },
+      say: ['de', 'また来たぞ！ 今度こそ、日本に勝つぞ！'],
+      fact: 'ドイツは 約8400万人。日本のほうが多いんだ', re: ['de', '……またか〜！'] },
+    { kind: 'text', metric: '人の数', q: 'パラオの人が ぜんいん すわれるのは？', a: '東京ドーム', o: ['学校の体育館', 'バス10台'],
+      say: ['pw', 'パラオの人は、約1万8千人だよ！'],
+      fact: '東京ドームの座席は 約4万3500席。パラオの人が ぜんいん すわれるんだ！', re: ['pw', 'みんなで、野球を見に行けちゃうね！'] },
+  ];
+
+  const WORD_QS = [
+    { kind: 'ball', q: '「サンキュー！」は どこの国の ありがとう？', a: 'us', o: ['de', 'pw', 'jp'],
+      say: ['jp', 'みんなの「ありがとう」を教えて！'], fact: '英語の ありがとうだよ', re: ['us', 'オレは、サンキュー！'] },
+    { kind: 'ball', q: '「ダンケ！」は どこの国の ありがとう？', a: 'de', o: ['us', 'ru', 'pw'],
+      say: ['jp', 'つぎは この ことば！'], fact: 'ドイツ語の ありがとうだよ', re: ['de', '言葉はちがっても、気持ちは同じだ'] },
+    { kind: 'ball', q: '「スラング！」は どこの国の ありがとう？', a: 'pw', o: ['in', 'us', 'de'],
+      say: ['jp', 'これは むずかしいかも？'], fact: 'スラング？ おもしろい ひびき！', re: ['pw', 'パラオ語では、スラング！'] },
+    { kind: 'text', q: 'パラオ語に なっている 日本語は どれ？', a: 'ベントー', o: ['ピッツァ', 'ボンジュール', 'アロハ'],
+      say: ['pw', 'パラオ語には、日本語がたくさんあるんだよ'], fact: 'パラオでは「ダイジョーブ」「ベントー」が使われているんだ', re: ['pw', 'ダイジョーブ！ ベントー！'] },
+    { kind: 'text', q: 'アメリカボールが 大好きな 日本のものは？', a: 'アニメとゲーム', o: ['おすし', '富士山', 'きもの'],
+      say: ['us', 'オレは 日本が好きだぜ！'], fact: 'アメリカボールは、日本のアニメとゲームが大好きなんだ', re: ['us', 'オレのセリフも 文字で出てる！'] },
+    { kind: 'ball', q: '「ナマステ〜！」と あいさつするのは？', a: 'in', o: ['ru', 'us', 'de'],
+      say: ['jp', '第7話で はじめて来た 友だちは？'], fact: 'インドの あいさつだよ', re: ['in', 'ナマステ〜！ 世界でいちばん、人が多い国なんだ！'] },
+  ];
+
+  const MODES = {
+    flag:  { title: '国旗クイズ 世界一周', sub: '10問・この国旗は どこの国かな？', ep: '第4・5話', icon: () => flag('br'), qs: () => FLAG_QS.map(q => ({ ...q, kind: 'flag' })) },
+    size:  { title: 'どっちが大きい？', sub: '7問・広さと 人の数くらべ', ep: '第6・7話', icon: () => `<div style="display:flex;align-items:end;gap:2px"><div style="width:22px;height:22px">${ball('jp')}</div><div style="width:40px;height:40px">${ball('ru')}</div></div>`, qs: () => SIZE_QS },
+    word:  { title: 'ことばクイズ', sub: '6問・世界の「ありがとう」', ep: '第2・3・7話', icon: () => `<div style="width:46px;height:46px">${ball('pw', 'smile')}</div>`, qs: () => WORD_QS },
+    palau: { title: 'パラオをさがせ！', sub: '3回・小さすぎて 見えない？', ep: '第6話', icon: () => `<div style="display:flex;align-items:center;gap:6px"><div style="width:40px;height:40px">${ball('us')}</div><div style="width:10px;height:10px">${ball('pw')}</div></div>` },
+  };
+
+  /* ---------- 小道具 ---------- */
+  const $ = (s, r = document) => r.querySelector(s);
+  const screen = $('#screen');
+  const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem('tamago:' + k)); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem('tamago:' + k, JSON.stringify(v)); } catch {} },
+  };
+  function say(c, text, opts = {}) {
+    return `<div class="say${opts.right ? ' right' : ''}">
+      <div class="say-ball">${ball(c, opts.eye || 'normal')}</div>
+      <div class="bubble"><span class="chip" style="--chip:${CH[c].chip}">${CH[c].name}</span><p>${text}</p></div>
+    </div>`;
+  }
+
+  /* ---------- 音（タップ後だけ鳴る） ---------- */
+  let soundOn = store.get('sound') !== false;
+  let actx = null;
+  function beep(notes) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      let t = actx.currentTime;
+      notes.forEach(([f, d]) => {
+        const o = actx.createOscillator(), g = actx.createGain();
+        o.type = 'triangle'; o.frequency.value = f;
+        g.gain.setValueAtTime(.18, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+        o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d);
+        t += d * .75;
+      });
+    } catch {}
+  }
+  const sfx = { ok: () => beep([[784, .12], [1047, .25]]), ng: () => beep([[220, .18], [185, .3]]), pop: () => beep([[660, .08], [990, .08], [1320, .2]]) };
+  const soundBtn = $('#soundBtn');
+  function paintSound() { soundBtn.textContent = soundOn ? 'おと：オン' : 'おと：オフ'; soundBtn.setAttribute('aria-pressed', soundOn); }
+  soundBtn.addEventListener('click', () => { soundOn = !soundOn; store.set('sound', soundOn); paintSound(); });
+  paintSound();
+
+  /* ---------- 飾り ---------- */
+  $('#bunting').innerHTML = ['jp', 'us', 'de', 'pw', 'ru', 'in', 'fr', 'it', 'br', 'ca', 'se', 'gr', 'kr', 'ch'].map(flag).join('');
+
+  /* ---------- ホーム ---------- */
+  let firstHome = true;
+  function home() {
+    state = null;
+    const egg = `<svg class="egg" viewBox="0 0 100 120" aria-hidden="true">
+      <defs>
+        <clipPath id="eggTop"><polygon points="0,0 100,0 100,60 88,67 76,58 64,67 52,58 40,67 28,58 16,67 0,58"/></clipPath>
+        <clipPath id="eggBot"><polygon points="0,58 16,67 28,58 40,67 52,58 64,67 76,58 88,67 100,60 100,120 0,120"/></clipPath>
+      </defs>
+      ${['bottom', 'top'].map(p => `<g class="${p}" clip-path="url(#${p === 'top' ? 'eggTop' : 'eggBot'})">
+        <path d="M50 4 C22 4 8 52 8 78 C8 104 27 117 50 117 C73 117 92 104 92 78 C92 52 78 4 50 4Z" fill="#FFF3D1" stroke="#1D2742" stroke-width="3.5"/>
+        <polyline points="8,58 16,67 28,58 40,67 52,58 64,67 76,58 88,67 94,62" fill="none" stroke="#1D2742" stroke-width="3" stroke-linejoin="round"/>
+      </g>`).join('')}
+    </svg>`;
+    screen.innerHTML = `
+      <section class="hero">
+        <button class="hatch ${firstHome ? 'play' : 'done'}" id="hatch" type="button" aria-label="たまごをもう一回わる">
+          <div class="newball">${ball('jp', 'smile')}</div>${egg}
+        </button>
+        <h1><small>クイズであそぼう！</small>たまごボール</h1>
+        <p class="tagline">国ボールたちと、世界の「へぇ〜」をあつめよう</p>
+      </section>
+      ${say('jp', 'どのクイズで あそぶ？ 動画を見た人は、きっと わかるよ！')}
+      <div class="modes">
+        ${Object.entries(MODES).map(([k, m]) => {
+          const best = store.get('best:' + k);
+          const bestText = best == null ? '' : k === 'palau' ? `さいこう ${best.toFixed(1)}びょう` : `さいこう ${best}/${m.qs().length}`;
+          return `<button class="mode" type="button" data-mode="${k}">
+            <span class="mode-icon">${m.icon()}</span>
+            <span><span class="mode-name">${m.title}</span><span class="mode-sub">${m.sub}</span></span>
+            <span class="mode-side"><span class="ep">${m.ep}</span><span class="best">${bestText}</span></span>
+          </button>`;
+        }).join('')}
+      </div>
+      <div style="display:grid;justify-items:center;gap:8px;margin-top:22px"><a class="yt" href="https://www.youtube.com/@%E3%81%9F%E3%81%BE%E3%81%94%E3%83%9C%E3%83%BC%E3%83%AB-f2j" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>YouTubeチャンネルを見る</a><p class="note" style="margin:0">小学4年生の息子とパパで作っている、国ボールのゆる雑学チャンネル。</p></div>`;
+    firstHome = false;
+    const hatch = $('#hatch');
+    hatch.addEventListener('click', () => {
+      hatch.classList.remove('play', 'done'); void hatch.offsetWidth; hatch.classList.add('play');
+    });
+    hatch.querySelector('.newball').addEventListener('animationend', () => { hatch.classList.remove('play'); hatch.classList.add('done'); });
+    screen.querySelectorAll('.mode').forEach(b => b.addEventListener('click', () => b.dataset.mode === 'palau' ? palau() : start(b.dataset.mode)));
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- クイズ ---------- */
+  let state = null;
+  function start(mode) {
+    state = { mode, i: 0, results: [], qs: MODES[mode].qs() };
+    question();
+  }
+
+  function header() {
+    const m = MODES[state.mode];
+    const dots = state.qs.map((_, k) => `<i class="${k < state.results.length ? (state.results[k] ? 'ok' : 'ng') : k === state.i ? 'now' : ''}"></i>`).join('');
+    return `<div class="qhead"><button class="ghost" type="button" id="quit">← もどる</button><div class="dots" aria-hidden="true">${dots}</div></div>
+      <div class="qnum">第${state.i + 1}問<span>${state.i + 1} / ${state.qs.length}・${m.title}</span></div>`;
+  }
+
+  function question() {
+    const q = state.qs[state.i];
+    let stage = '', choices = [];
+    if (q.kind === 'flag') {
+      choices = shuffle([q.a, ...q.o]).map(t => ({ key: t, html: t }));
+      stage = `${say('jp', q.big ? 'さいごは、第10問！ この国旗は、どこの国かな？' : 'この国旗は、どこの国かな？')}
+        <div class="flagcard${FLAGS[q.f].square ? ' square' : ''}">${flag(q.f)}</div>
+        ${say(q.by, q.hint, { right: true })}`;
+    } else if (q.kind === 'vs') {
+      stage = `${say(q.say[0], q.say[1])}<div class="metric">${q.metric}くらべ</div><p class="prompt">${q.q}</p>`;
+    } else {
+      const opts = q.kind === 'ball' ? [q.a, ...q.o] : [q.a, ...q.o];
+      const list = q.keep ? [...q.o, q.a] : shuffle(opts);
+      choices = list.map(t => q.kind === 'ball'
+        ? { key: t, html: `<span class="mini">${ball(t)}</span>${CH[t].name}` }
+        : { key: t, html: t });
+      stage = `${say(q.say[0], q.say[1])}${q.metric ? `<div class="metric">${q.metric}くらべ</div>` : ''}<p class="prompt">${q.q}</p>`;
+    }
+
+    let choiceHtml;
+    if (q.kind === 'vs') {
+      choiceHtml = `<div class="choices vs">
+        ${[q.a, q.b].map(c => `<button class="choice" type="button" data-key="${c}">
+          <span class="grow">${ball(c)}</span><span class="label">${CH[c].name}</span><span class="value"></span></button>`).join('')}
+      </div>`;
+    } else {
+      choiceHtml = `<div class="choices"${choices.length === 3 ? ' style="grid-template-columns:1fr"' : ''}>
+        ${choices.map(c => `<button class="choice" type="button" data-key="${c.key}">${c.html}</button>`).join('')}
+      </div>`;
+    }
+
+    screen.innerHTML = `${header()}<div class="stage">${stage}</div>${choiceHtml}<div id="fb"></div>`;
+    $('#quit').addEventListener('click', home);
+    screen.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => answer(b.dataset.key)));
+    window.scrollTo(0, 0);
+  }
+
+  function answer(key) {
+    const q = state.qs[state.i];
+    const right = q.kind === 'vs' ? q.ans : q.a;
+    const ok = key === right;
+    state.results.push(ok);
+    ok ? sfx.ok() : sfx.ng();
+
+    screen.querySelectorAll('.choice').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.key === right) b.classList.add('ok');
+      else if (b.dataset.key === key) b.classList.add('ng');
+      else b.classList.add('dim');
+    });
+
+    if (q.kind === 'vs') {
+      const vals = [q.a, q.b].map(c => q.v[c][0]);
+      const max = Math.max(...vals);
+      screen.querySelectorAll('.vs .choice').forEach(b => {
+        const [v, label] = q.v[b.dataset.key];
+        const d = Math.max(40, Math.round(150 * Math.sqrt(v / max)));
+        const g = b.querySelector('.grow');
+        g.style.width = g.style.height = d + 'px';
+        g.innerHTML = ball(b.dataset.key, b.dataset.key === right ? 'smile' : 'closed');
+        b.querySelector('.value').textContent = label;
+        b.classList.remove('dim');
+      });
+    }
+
+    const verdict = ok ? 'せいかい！' : 'ざんねん…';
+    const lead = q.kind === 'flag'
+      ? (ok ? (q.big ? '大せいかい！ ' : 'せいかい！ ') : `こたえは ${q.a}。`)
+      : (ok ? '' : `こたえは「${q.kind === 'ball' ? CH[q.a].name : q.kind === 'vs' ? CH[q.ans].name : q.a}」。`);
+    const last = state.i === state.qs.length - 1;
+    $('#fb').innerHTML = `<div class="feedback">
+      <p class="verdict ${ok ? 'ok' : 'ng'}">${verdict}</p>
+      ${say('jp', lead + q.fact, { eye: ok ? 'smile' : 'normal' })}
+      ${q.re ? say(q.re[0], q.re[1], { right: true, eye: 'smile' }) : ''}
+      <button class="btn" type="button" id="next">${last ? 'けっかを見る' : 'つぎの問題へ'}</button>
+    </div>`;
+    const next = $('#next');
+    next.addEventListener('click', () => { state.i++; last ? result() : question(); });
+    setTimeout(() => $('#fb').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }), 250);
+    next.focus({ preventScroll: true });
+  }
+
+  function rankFor(p) {
+    if (p >= 1) return ['たまご博士！', 'ぜんもん せいかい！ すごすぎるよ！', 'smile'];
+    if (p >= .7) return ['国ボール名人', 'あと少しで ぜんもん せいかいだね！', 'smile'];
+    if (p >= .4) return ['ひよこ探検隊', '世界のこと、もっと いっしょに知っていこう！', 'normal'];
+    return ['たまご', 'ここから 生まれるんだ！ もう一回やってみよう！', 'closed'];
+  }
+
+  function result() {
+    const score = state.results.filter(Boolean).length, total = state.qs.length;
+    const [rank, line, eye] = rankFor(score / total);
+    const key = 'best:' + state.mode;
+    const best = store.get(key);
+    const isBest = best == null || score > best;
+    if (isBest) store.set(key, score);
+    if (score / total >= .7) sfx.pop();
+    const mode = state.mode;
+    screen.innerHTML = `<section class="result">
+      <div class="bigball">${ball('jp', eye)}</div>
+      <div class="score">${score}<small> / ${total}もん</small></div>
+      <div class="rank">${rank}</div>
+      ${say('jp', line + (isBest && best != null ? ' じこベスト こうしん！' : ''))}
+      <div class="shot">この画面を スクショして、YouTubeの コメントで「${MODES[mode].title}・${score}問」って おしえてね！</div>
+      <div class="row">
+        <button class="btn" type="button" id="again">もう一回</button>
+        <button class="btn plain" type="button" id="back">ほかのクイズ</button>
+      </div>
+    </section>`;
+    $('#again').addEventListener('click', () => start(mode));
+    $('#back').addEventListener('click', home);
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- パラオをさがせ ---------- */
+  const ROUNDS = [28, 19, 13];
+  const BIGS = [
+    { c: 'ru', x: .72, y: .72, s: .78 },
+    { c: 'in', x: .22, y: .40, s: .46 },
+    { c: 'us', x: .74, y: .24, s: .36 },
+    { c: 'jp', x: .28, y: .80, s: .24 },
+    { c: 'de', x: .50, y: .10, s: .20 },
+  ];
+  let pz = null;
+  function palau() {
+    state = null;
+    pz = { round: 0, total: 0, misses: 0, t0: 0, tick: null };
+    palauRound();
+  }
+  function palauRound() {
+    const size = ROUNDS[pz.round];
+    screen.innerHTML = `
+      <div class="qhead"><button class="ghost" type="button" id="quit">← もどる</button>
+        <div class="dots" aria-hidden="true">${ROUNDS.map((_, k) => `<i class="${k < pz.round ? 'ok' : k === pz.round ? 'now' : ''}"></i>`).join('')}</div></div>
+      <div class="qnum">パラオをさがせ！<span>${pz.round + 1} / ${ROUNDS.length}</span></div>
+      ${say('pw', pz.round === 0 ? 'わたしも入れて〜！ ここだよ〜！ 見つけたら タップしてね！' : pz.round === 1 ? 'もっと小さくなっちゃった！ 足もと、足もと！' : 'さいごだよ〜！ 豆つぶくらいだね！')}
+      <div class="scene" id="scene" role="application" aria-label="パラオボールをさがす画面">
+        ${BIGS.map(b => `<div class="big" style="left:${b.x * 100}%;top:${b.y * 100}%;width:${b.s * 100}%;aspect-ratio:1">${ball(b.c)}</div>`).join('')}
+      </div>
+      <div class="hud"><span>見のがしタップ ${pz.misses}回</span><span class="timer" id="timer">${pz.total.toFixed(1)}</span></div>`;
+    $('#quit').addEventListener('click', () => { clearInterval(pz.tick); home(); });
+    const scene = $('#scene');
+    requestAnimationFrame(() => {
+      const W = scene.clientWidth, H = scene.clientHeight, r = size / 2;
+      let x = W / 2, y = H / 2;
+      for (let tries = 0; tries < 400; tries++) {
+        const cx = r + 8 + Math.random() * (W - 2 * r - 16), cy = r + 8 + Math.random() * (H - 2 * r - 16);
+        const clear = BIGS.every(b => Math.hypot(cx - b.x * W, cy - b.y * H) > b.s * W / 2 + r + 4);
+        if (clear) { x = cx; y = cy; break; }
+      }
+      const hit = document.createElement('button');
+      hit.type = 'button'; hit.className = 'palau-hit'; hit.setAttribute('aria-label', 'パラオボール');
+      hit.style.left = x + 'px'; hit.style.top = y + 'px';
+      hit.innerHTML = `<span class="tiny" style="width:${size}px;height:${size}px">${ball('pw')}</span>`;
+      scene.appendChild(hit);
+      hit.addEventListener('click', (e) => { e.stopPropagation(); found(hit); });
+      scene.addEventListener('click', (e) => {
+        if (hit.classList.contains('found')) return;
+        pz.misses++; sfx.ng();
+        const rect = scene.getBoundingClientRect();
+        const m = document.createElement('span');
+        m.className = 'miss'; m.textContent = 'ちがうよ〜';
+        m.style.left = (e.clientX - rect.left) + 'px'; m.style.top = (e.clientY - rect.top) + 'px';
+        scene.appendChild(m); setTimeout(() => m.remove(), 800);
+        $('.hud span').textContent = `見のがしタップ ${pz.misses}回`;
+      });
+      pz.t0 = performance.now();
+      const base = pz.total;
+      pz.tick = setInterval(() => { $('#timer').textContent = (base + (performance.now() - pz.t0) / 1000).toFixed(1); }, 100);
+    });
+  }
+  function found(hit) {
+    clearInterval(pz.tick);
+    pz.total += (performance.now() - pz.t0) / 1000;
+    $('#timer').textContent = pz.total.toFixed(1);
+    hit.classList.add('found'); hit.innerHTML = hit.innerHTML.replace(/<svg[\s\S]*<\/svg>/, ball('pw', 'smile'));
+    sfx.pop();
+    setTimeout(() => {
+      pz.round++;
+      if (pz.round < ROUNDS.length) palauRound(); else palauResult();
+    }, 900);
+  }
+  function palauResult() {
+    const t = pz.total;
+    const [rank, line, eye] = t < 8 ? ['たまご博士！', 'はやすぎる！ パラオも びっくりだよ！', 'smile']
+      : t < 18 ? ['国ボール名人', 'よく見つけたね！ 目がいいなあ！', 'smile']
+      : ['ひよこ探検隊', 'パラオは 小さいけど、ちゃんと そこにいるよ！', 'normal'];
+    const best = store.get('best:palau');
+    const isBest = best == null || t < best;
+    if (isBest) store.set('best:palau', t);
+    screen.innerHTML = `<section class="result">
+      <div class="bigball">${ball('pw', eye)}</div>
+      <div class="score">${t.toFixed(1)}<small> びょう</small></div>
+      <div class="rank">${rank}</div>
+      ${say('pw', line + (isBest && best != null ? ' じこベスト こうしん！' : ''))}
+      <div class="shot">この画面を スクショして、YouTubeの コメントで「パラオ ${t.toFixed(1)}びょう」って おしえてね！</div>
+      <div class="row">
+        <button class="btn" type="button" id="again">もう一回</button>
+        <button class="btn plain" type="button" id="back">ほかのクイズ</button>
+      </div>
+    </section>`;
+    $('#again').addEventListener('click', palau);
+    $('#back').addEventListener('click', home);
+    window.scrollTo(0, 0);
+  }
+
+  home();
+})();
+</script>
+</body>
+</html>
