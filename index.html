@@ -171,8 +171,8 @@
   const DROP_TIERS = [0, 0, 1, 1, 2, 2, 3, 4];
   const INK = '#1D2742';
   // たまごチャンネルのURL（空のときはボタンを出さない）
-  const CHANNEL_URL = '';
-  const ytLink = () => CHANNEL_URL ? `<a class="yt" href="${CHANNEL_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>たまごチャンネルを見る</a>` : '';
+  const CHANNEL_URL = 'https://www.youtube.com/@%E3%81%9F%E3%81%BE%E3%81%94%E3%83%9C%E3%83%BC%E3%83%AB-f2j';
+  const ytLink = () => CHANNEL_URL ? `<a class="yt" href="${CHANNEL_URL}" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>YouTubeチャンネルを見る</a>` : '';
 
   /* ---------- ボールを描く ---------- */
   function paintBody(ctx, c, r) {
