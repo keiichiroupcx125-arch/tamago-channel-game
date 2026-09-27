@@ -220,7 +220,8 @@ function telop(html, cls = '') {
   const el = $('telop'); el.classList.remove('on'); el.className = 'telop ' + cls;
   void el.offsetWidth; el.innerHTML = html; if (html) el.classList.add('on');
 }
-function say(c, text) {
+function say(c, text, v) {
+  if (v) mark('voice', v);
   const b = $('bubble'); b.classList.remove('on'); void b.offsetWidth;
   $('chip').textContent = NAME[c]; $('chip').style.setProperty('--chip', CHIP[c]); $('line').textContent = text;
   if (text) b.classList.add('on');
@@ -248,19 +249,22 @@ async function run() {
   $('eggBottom').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 150, fill: 'forwards' });
   $('jp').style.transform = 'scale(1)'; mark('pop');
   await sleep(250);
-  telop('たいへん！'); say('jp', 'ゲームが できたよ！');
-  await sleep(1650);
+  telop('たいへん！'); say('jp', 'たいへん！ ゲームが できたよ！', 1);
+  await sleep(2850);
 
   // シーン2：アメリカ登場
   const jp = $('jp'); jp.style.left = '90px'; jp.style.top = '820px'; jp.style.width = jp.style.height = '360px';
   $('us').style.left = '610px'; mark('whoosh');
   await sleep(350);
-  telop('たまごボールの<br><span class="gold">ゲーム!?</span>', 'small'); say('us', 'ゲームだと!? オレ、ぜったい 勝つぜ！');
-  await sleep(2400);
+  telop('たまごボールの<br><span class="gold">ゲーム!?</span>', 'small'); say('us', 'ゲームだと!? オレ、ぜったい 勝つぜ！', 2);
+  await sleep(3450);
 
   // シーン3：タイトル
   hush(); telop(''); scene('s3'); await sleep(80); $('title').classList.add('on'); mark('title');
-  await sleep(2300);
+  await sleep(250);
+  say('jp', '国ボール くっつけパズル！', 3);
+  await sleep(2150);
+  hush();
 
   // シーン4：ゲーム画面
   $('title').classList.remove('on'); scene('s4');
@@ -273,7 +277,7 @@ async function run() {
   await sleep(1200);
   G.drop(4, 0); mark('drop');
   await sleep(650);
-  telop('ドイツ＋ドイツ＝<br><span class="gold">日本!?</span>', 'small'); say('de', '……またか〜！');
+  telop('ドイツ＋ドイツ＝<br><span class="gold">日本!?</span>', 'small'); say('de', '……またか〜！', 4);
   await sleep(1000);
   G.drop(5, 0); mark('drop');
   await sleep(700);
@@ -288,24 +292,24 @@ async function run() {
   await sleep(1500);
   G.drop(9, 0); mark('drop');
   await sleep(600);
-  telop('ロシア!!<br><span class="gold">ズシーン!!</span>', 'small'); say('ru', '……ズシーン。世界でいちばん 広い国なんだ。');
-  await sleep(2100);
+  telop('ロシア!!<br><span class="gold">ズシーン!!</span>', 'small'); say('ru', '……ズシーン。世界でいちばん 広い国なんだ。', 5);
+  await sleep(3300);
 
   // シーン5：ならび
   hush(); scene('s5');
   telop('大きさは<br><span class="gold">本当の広さのじゅん！</span>', 'small');
   const balls = [...document.querySelectorAll('.row canvas')];
   for (const b of balls) { b.classList.add('on'); mark('tick'); await sleep(120); }
-  say('pw', 'わたしは いちばん 小さいよ〜！');
-  await sleep(2600);
+  say('pw', 'わたしは いちばん 小さいよ〜！', 6);
+  await sleep(3000);
 
   // シーン6：さいご
   hush(); scene('s6'); mark('end');
   $('endBall').animate([{ transform: 'scale(.3)' }, { transform: 'scale(1)' }], { duration: 500, easing: 'cubic-bezier(.2,1.6,.5,1)' });
-  telop('概要欄から<br><span class="gold">あそべるよ！</span>');
+  telop('チャンネルの リンクから<br><span class="gold">あそんでね！</span>', 'small');
   await sleep(600);
-  say('jp', 'どこまで いけたか、コメントで おしえてね！');
-  await sleep(3800);
+  say('jp', 'チャンネルの リンクから あそんでね！', 7);
+  await sleep(3700);
   mark('finish');
   window.__done = true;
 }

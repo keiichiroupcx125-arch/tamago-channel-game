@@ -4,7 +4,8 @@
 
 ## いまの状態
 - `short_v1_no_voice.mp4`：声なし版（1080×1920・約29秒・BGMと効果音つき）
-- 声（VOICEVOX）を入れた版を作るのが次の作業です
+- `short_v2_voice.mp4`：**声入り完成版**（1080×1920・約33秒・VOICEVOX 7セリフ、最後は「チャンネルの リンクから あそんでね！」）
+- 声のwavは完成後に `voice/` から消した。作り直すときは VOICEVOX で書き出して `voice/` に置き直す（ファイル名の先頭の番号 01〜07 でセリフを見分ける）
 
 ## 入れる声（`voice/` フォルダに置く）
 | 番号 | キャラ（VOICEVOXの声） | セリフ | 動画の場面 |
@@ -22,10 +23,10 @@ VOICEVOXが自動で付けるファイル名（例：`001_白上虎太郎（ふ�
 ## 作り直し手順（Claude Code 向け）
 1. `short.html` の最後の場面の文字を「概要欄から あそべるよ！」→「チャンネルの リンクから あそんでね！」に変え、吹き出しのセリフを上の表と同じにする
 2. 各セリフの長さ（wavの秒数）に合わせて `short.html` の `run()` 内の `sleep()` を伸ばす。セリフが次の場面に食い込まないようにする
-3. 準備：`npm pack @fontsource/mochiy-pop-one @fontsource/zen-maru-gothic` を展開して `fonts/mochiy` と `fonts/zen` に置く。`npm pack matter-js@0.19.0` の `build/matter.min.js` を同じフォルダに置く。`pip install numpy imageio-ffmpeg`
+3. 準備（npmが使えない環境では、フォントは GitHub の google/fonts（ofl/mochiypopone・ofl/zenmarugothic）のttf、matter.min.js は liabru/matter-js の 0.19.0 タグから git で取れる。その場合 fonts/mochiy/400.css・fonts/zen/500〜900.css は @font-face を1行書くだけでよい）：`npm pack @fontsource/mochiy-pop-one @fontsource/zen-maru-gothic` を展開して `fonts/mochiy` と `fonts/zen` に置く。`npm pack matter-js@0.19.0` の `build/matter.min.js` を同じフォルダに置く。`pip install numpy imageio-ffmpeg`
 4. このフォルダで `python3 -m http.server 8766` を起動し、`node rec.js`（Playwright）で録画する。`events.json` に各場面の時刻が書き出される
 5. `python3 audio.py` でBGMと効果音を作る。声のwavを `events.json` の時刻（セリフを出した時刻）に重ね、BGMは声の間だけ少し下げる
-6. ffmpegで `events.json` の `offset` 秒から切り出し、1080×1920・30fps・H.264・AACのMP4にする
+6. `python3 retime.py` でMP4にする。Playwrightの録画は重いと時間が伸びる（v2では約1.23倍）ので、吹き出しに文字が出た瞬間を目印に events.json の時刻へ合わせ直し、audio.wav と合わせて 1080×1920・30fps・H.264・AAC で書き出す
 7. 字幕（吹き出し）と声のタイミングがずれていないか、数枚の静止画で確認する
 
 ## クレジット

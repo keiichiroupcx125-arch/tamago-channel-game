@@ -51,7 +51,29 @@ while t < DUR:
     s += 1; t += eighth
 fade = np.ones(N); fi = int(.6 * SR); fade[:fi] = np.linspace(0, 1, fi)
 fo = int(1.2 * SR); fade[-fo:] = np.linspace(1, 0, fo)
-out += bgm * fade * 0.85
+
+# 声（VOICEVOX）：../voice/ のwavを、セリフを出した時刻（'voice' イベント）に重ねる
+import glob, os, re
+VOICE = {}
+for f in glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'voice', '*.wav')):
+    m = re.match(r'0*(\d+)', os.path.basename(f))
+    if not m: continue
+    with wave.open(f) as w:
+        sr, ch, sw = w.getframerate(), w.getnchannels(), w.getsampwidth()
+        a = np.frombuffer(w.readframes(w.getnframes()), {2: np.int16, 4: np.int32}[sw]).astype(float) / (2 ** (8 * sw - 1))
+    if ch > 1: a = a.reshape(-1, ch).mean(1)
+    if sr != SR: a = np.interp(np.arange(int(len(a) * SR / sr)) / SR, np.arange(len(a)) / sr, a)
+    VOICE[int(m.group(1))] = a / max(1e-9, np.max(np.abs(a)))
+voice = np.zeros(N); duck = np.ones(N); r = int(.12 * SR)
+for e in ev:
+    if e['name'] != 'voice' or e.get('extra') not in VOICE: continue
+    a = VOICE[e['extra']]; i = int(e['t'] * SR); j = min(N, i + len(a))
+    voice[i:j] += a[:j - i]
+    lo, hi = max(0, i - r), min(N, j + r)
+    duck[lo:hi] = np.minimum(duck[lo:hi], 0.4)
+duck = np.convolve(duck, np.ones(r) / r, 'same')  # なめらかに下げて戻す
+print('voices', sorted(VOICE), 'placed', sum(1 for e in ev if e['name'] == 'voice'))
+out += bgm * fade * duck * 0.85
 
 # 効果音
 def pop(t0, f, vol=.5):
@@ -77,7 +99,8 @@ for e in ev:
     elif nm == 'end':
         for k, f in enumerate([523, 659, 784, 1047]): add(t0 + k * .12, note('tri', f, .5 if k == 3 else .15, .35, .15))
 
-out = out / np.max(np.abs(out)) * 0.89
+out = out / np.max(np.abs(out)) * 0.6 + voice * 0.95
+out = out / max(1, np.max(np.abs(out)) / 0.95)
 with wave.open('audio.wav', 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((out * 32767).astype(np.int16).tobytes())
