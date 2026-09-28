@@ -51,6 +51,21 @@
   }
   .bubble p { margin: 0; font-size: 66px; line-height: 1.3; font-weight: 900; }
 
+  /* シーン0：つかみ（2秒） */
+  #s0 { background: radial-gradient(circle at 50% 45%, #ffe9a8 0%, #ffcf5c 40%, #ff9f68 100%); }
+  #s0 .hookTitle { position: absolute; left: 40px; right: 40px; top: 210px; text-align: center; font-family: "Mochiy Pop One"; font-size: 118px; line-height: 1.15; color: #fff; -webkit-text-stroke: 24px var(--ink); paint-order: stroke fill; transform: scale(.4); opacity: 0; }
+  #s0 .hookTitle.on { animation: pop .45s cubic-bezier(.2,1.6,.5,1) forwards; }
+  @keyframes pop { to { transform: none; opacity: 1; } }
+  #s0 .hookTitle .gold { color: var(--gold); }
+  #hookA, #hookB { position: absolute; top: 900px; width: 300px; height: 300px; }
+  #hookA { left: 140px; } #hookB { left: 640px; }
+  #hookRu { position: absolute; left: 165px; top: 720px; width: 750px; height: 750px; transform: scale(0); }
+  #hookRu.on { animation: slam .55s cubic-bezier(.3,1.5,.5,1) forwards; }
+  @keyframes slam { 70% { transform: scale(1.15); } to { transform: scale(1); } }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 20% { transform: translate(-14px, 10px); } 40% { transform: translate(12px, -8px); } 60% { transform: translate(-8px, 6px); } 80% { transform: translate(6px, -4px); } }
+  #hookZu { position: absolute; left: 0; right: 0; top: 1500px; text-align: center; font-family: "Mochiy Pop One"; font-size: 150px; color: var(--gold); -webkit-text-stroke: 26px var(--ink); paint-order: stroke fill; opacity: 0; transform: scale(.3) rotate(-8deg); }
+  #hookZu.on { animation: pop .3s cubic-bezier(.2,1.6,.5,1) forwards; }
   /* シーン1〜2 */
   #egg { position: absolute; width: 420px; left: 330px; top: 700px; }
   #jp { position: absolute; width: 400px; height: 400px; left: 340px; top: 760px; transform: scale(0); transition: transform .5s cubic-bezier(.2,1.6,.5,1), left .6s, top .6s, width .6s, height .6s; }
@@ -104,7 +119,15 @@
   <canvas id="bunting" width="1080" height="130"></canvas>
 
   <!-- シーン1〜2 -->
-  <div class="layer on" id="s12">
+  <!-- シーン0：つかみ -->
+  <div class="layer on" id="s0">
+    <div class="hookTitle" id="hookTitle">この国ボール、<br><span class="gold">くっつく!?</span></div>
+    <canvas id="hookA" width="600" height="600"></canvas>
+    <canvas id="hookB" width="600" height="600"></canvas>
+    <canvas id="hookRu" width="1500" height="1500"></canvas>
+    <div id="hookZu">ズシーン!!</div>
+  </div>
+  <div class="layer" id="s12">
     <svg id="egg" viewBox="0 0 100 120" aria-hidden="true">
       <defs>
         <clipPath id="eggTop"><polygon points="0,0 100,0 100,60 88,67 76,58 64,67 52,58 40,67 28,58 16,67 0,58"/></clipPath>
@@ -253,7 +276,19 @@ async function run() {
   await new Promise(r => { const f = $('game'); if (f.contentWindow && f.contentWindow.__demo) r(); else f.addEventListener('load', () => setTimeout(r, 300)); });
   await sleep(400);
 
+  paintOn($('hookA'), 'us', 'normal'); paintOn($('hookB'), 'us', 'normal'); paintOn($('hookRu'), 'ru', 'normal');
   T0 = performance.now(); window.__t0wall = Date.now(); mark('start');
+  // シーン0：つかみ（約2秒）アメリカ2つがぶつかって → ロシアがズシーン
+  $('hookTitle').classList.add('on');
+  await sleep(350);
+  $('hookA').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(250px)' }], { duration: 450, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' });
+  $('hookB').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-250px)' }], { duration: 450, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' });
+  await sleep(430); mark('merge', 10);
+  $('hookA').style.opacity = $('hookB').style.opacity = 0;
+  $('hookRu').classList.add('on'); $('hookZu').classList.add('on'); document.body.classList.add('shake');
+  await sleep(1250);
+  document.body.classList.remove('shake');
+  scene('s12');
   // シーン1：たまごが転がってきて、われる
   const egg = $('egg');
   egg.animate([{ transform: 'translateX(-900px) rotate(-720deg)' }, { transform: 'none' }], { duration: 1000, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'both' });
@@ -272,7 +307,7 @@ async function run() {
   $('us').style.left = '610px'; mark('whoosh');
   await sleep(350);
   telop('たまごボールの<br><span class="gold">ゲーム!?</span>', 'small'); say('us', 'ゲームだと!? オレ、ぜったい 勝つぜ！', 2);
-  await sleep(3450);
+  await sleep(3850);
 
   // シーン3：タイトル
   hush(); telop(''); scene('s3'); await sleep(80); $('title').classList.add('on'); mark('title');
