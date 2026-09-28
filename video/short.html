@@ -81,12 +81,22 @@
   .row canvas.on { transform: none; }
   .arrow { position: absolute; left: 70px; right: 70px; top: 1320px; display: flex; justify-content: space-between; font-size: 48px; font-family: "Mochiy Pop One"; }
 
-  /* シーン6：さいご */
-  #endBall { position: absolute; left: 390px; top: 640px; width: 300px; height: 300px; }
-  .end-lines { position: absolute; left: 60px; right: 60px; top: 1000px; display: grid; gap: 30px; justify-items: center; text-align: center; }
-  .pill { font-size: 54px; background: var(--gold); border: 8px solid var(--ink); border-radius: 999px; padding: 10px 40px; box-shadow: 0 10px 0 var(--ink); }
-  .url { white-space: nowrap; font-size: 31px; background: #fff; border: 6px solid var(--ink); border-radius: 24px; padding: 12px 26px; }
-  .end-sub { font-size: 50px; font-weight: 900; }
+  /* シーン6：さいご（スマホでおす場所を見せる） */
+  #endBall { position: absolute; left: 60px; top: 470px; width: 220px; height: 220px; }
+  .ph { position: absolute; left: 250px; top: 430px; width: 600px; height: 1000px; background: #fff; border: 14px solid var(--ink); border-radius: 60px; box-shadow: 0 18px 0 var(--ink); overflow: hidden; font-family: "Zen Maru Gothic", sans-serif; }
+  .ph .bar { height: 150px; background: linear-gradient(90deg, #ffd166, #ff9f68); border-bottom: 8px solid var(--ink); }
+  .ph .av { position: absolute; left: 34px; top: 100px; width: 120px; height: 120px; border-radius: 50%; background: #fff; border: 8px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 64px; }
+  .ph .nm { position: absolute; left: 180px; top: 172px; font-size: 44px; font-weight: 900; padding: 4px 18px; border-radius: 18px; }
+  .ph .hd { position: absolute; left: 180px; top: 232px; font-size: 26px; color: #666; }
+  .ph .lk { position: absolute; left: 180px; top: 280px; font-size: 32px; font-weight: 900; color: #1a5fb4; padding: 6px 18px; border-radius: 18px; text-decoration: underline; }
+  .ph .row { position: absolute; left: 34px; right: 34px; height: 130px; background: #eee; border-radius: 22px; }
+  .hl { outline: 10px solid #ff3b5c; outline-offset: 6px; border-radius: 18px; animation: blink .5s steps(2) infinite; }
+  @keyframes blink { 50% { outline-color: transparent; } }
+  .finger { position: absolute; width: 190px; height: 190px; filter: drop-shadow(0 6px 0 rgba(0,0,0,.25)); opacity: 0; transform: translate(0,0); transition: transform .5s cubic-bezier(.2,.8,.3,1), opacity .2s; pointer-events: none; }
+  .finger.on { opacity: 1; }
+  .finger.tap { animation: tap .35s; }
+  @keyframes tap { 40% { transform: scale(.82) translate(var(--fx), var(--fy)); } }
+  .pill { position: absolute; left: 0; right: 0; bottom: 130px; margin: auto; width: max-content; font-size: 50px; background: var(--gold); border: 8px solid var(--ink); border-radius: 999px; padding: 8px 40px; box-shadow: 0 10px 0 var(--ink); }
 </style>
 </head>
 <body>
@@ -132,11 +142,16 @@
   <!-- シーン6 -->
   <div class="layer" id="s6">
     <canvas id="endBall" width="600" height="600"></canvas>
-    <div class="end-lines">
-      <div class="pill">むりょう・とうろく なし</div>
-      <div class="end-sub">スコアを コメントで おしえてね！</div>
-      <div class="url">keiichiroupcx125-arch.github.io/tamago-channel-game</div>
+    <div class="ph">
+      <div class="bar"></div>
+      <div class="av">🥚</div>
+      <div class="nm" id="phName">たまごボール</div>
+      <div class="hd">@たまごボール-f2j</div>
+      <div class="lk" id="phLink">🎮 ゲームで あそぼう</div>
+      <div class="row" style="top:380px"></div><div class="row" style="top:540px"></div><div class="row" style="top:700px"></div>
     </div>
+    <svg class="finger" id="finger" viewBox="0 0 100 100"><path d="M38 96V58c0-7 10-7 10 0v-4c0-7 10-7 10 0v3c0-7 10-7 10 0v3c0-6 10-6 10 1v22c0 12-8 17-20 17H50c-6 0-10-3-14-8L22 76c-4-5 3-11 8-7l8 6V22c0-8 12-8 12 0v36" fill="#ffd9b3" stroke="#1D2742" stroke-width="5" stroke-linejoin="round"/></svg>
+    <div class="pill">むりょう・とうろく なし</div>
   </div>
 
   <div class="telop" id="telop"></div>
@@ -303,13 +318,28 @@ async function run() {
   say('pw', 'わたしは いちばん 小さいよ〜！', 6);
   await sleep(3000);
 
-  // シーン6：さいご
+  // シーン6：さいご（声5.7秒：チャンネルの なまえを おして、ゲームで あそぼうを おしてね！）
   hush(); scene('s6'); mark('end');
   $('endBall').animate([{ transform: 'scale(.3)' }, { transform: 'scale(1)' }], { duration: 500, easing: 'cubic-bezier(.2,1.6,.5,1)' });
-  telop('チャンネルの リンクから<br><span class="gold">あそんでね！</span>', 'small');
-  await sleep(600);
-  say('jp', 'チャンネルの リンクから あそんでね！', 7);
-  await sleep(3700);
+  telop('あそびかた', 'small');
+  await sleep(500);
+  say('jp', 'チャンネルの なまえを おして、ゲームで あそぼうを おしてね！', 7);
+  const fg = $('finger');
+  const tapAt = async (el, dx, dy) => {
+    const r = el.getBoundingClientRect();
+    fg.style.left = (r.left + r.width / 2 - 82 + dx) + 'px'; fg.style.top = (r.top + r.height / 2 - 30 + dy) + 'px';
+    fg.classList.add('on'); await sleep(550);
+    fg.classList.add('tap'); el.classList.add('hl'); await sleep(350); fg.classList.remove('tap');
+  };
+  fg.style.left = '700px'; fg.style.top = '1300px';
+  await sleep(700);
+  telop('① チャンネルの<br><span class="gold">なまえを おす</span>', 'small');
+  await tapAt($('phName'), 0, 0);
+  await sleep(1300);
+  $('phName').classList.remove('hl');
+  telop('② ゲームで あそぼう<br><span class="gold">を おす</span>', 'small');
+  await tapAt($('phLink'), 0, 0);
+  await sleep(2400);
   mark('finish');
   window.__done = true;
 }

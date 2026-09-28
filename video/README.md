@@ -4,7 +4,8 @@
 
 ## いまの状態
 - `short_v1_no_voice.mp4`：声なし版（1080×1920・約29秒・BGMと効果音つき）
-- `short_v2_voice.mp4`：**声入り完成版**（1080×1920・約33秒・VOICEVOX 7セリフ、最後は「チャンネルの リンクから あそんでね！」）
+- `short_v3_voice.mp4`：**声入り完成版（公開中）**。1080×1920・約36秒。最後の場面はスマホ画面で「チャンネル名をおす → ゲームで あそぼう をおす」を指で見せる。セリフは「チャンネルの なまえを おして、ゲームで あそぼうを おしてね！」（白上虎太郎）。「国」は「くに」と読ませる（VOICEVOXでひらがな入力）
+- `short_v2_voice.mp4`：旧版（最後が「チャンネルの リンクから あそんでね！」・「国」が「こく」読み）
 - 声のwavは完成後に `voice/` から消した。作り直すときは VOICEVOX で書き出して `voice/` に置き直す（ファイル名の先頭の番号 01〜07 でセリフを見分ける）
 
 ## 入れる声（`voice/` フォルダに置く）
@@ -26,7 +27,7 @@ VOICEVOXが自動で付けるファイル名（例：`001_白上虎太郎（ふ�
 3. 準備（npmが使えない環境では、フォントは GitHub の google/fonts（ofl/mochiypopone・ofl/zenmarugothic）のttf、matter.min.js は liabru/matter-js の 0.19.0 タグから git で取れる。その場合 fonts/mochiy/400.css・fonts/zen/500〜900.css は @font-face を1行書くだけでよい）：`npm pack @fontsource/mochiy-pop-one @fontsource/zen-maru-gothic` を展開して `fonts/mochiy` と `fonts/zen` に置く。`npm pack matter-js@0.19.0` の `build/matter.min.js` を同じフォルダに置く。`pip install numpy imageio-ffmpeg`
 4. このフォルダで `python3 -m http.server 8766` を起動し、`node rec.js`（Playwright）で録画する。`events.json` に各場面の時刻が書き出される
 5. `python3 audio.py` でBGMと効果音を作る。声のwavを `events.json` の時刻（セリフを出した時刻）に重ね、BGMは声の間だけ少し下げる
-6. `python3 retime.py` でMP4にする。Playwrightの録画は重いと時間が伸びる（v2では約1.23倍）ので、吹き出しに文字が出た瞬間を目印に events.json の時刻へ合わせ直し、audio.wav と合わせて 1080×1920・30fps・H.264・AAC で書き出す
+6. `python3 retime.py` でMP4にする。自動の目印がずれるときは `ANCHORS="3.06,6.42,..."`（各セリフの吹き出しが出た録画内の秒、7つ）を環境変数で渡す。Playwrightの録画は重いと時間が伸びる（v2では約1.23倍）ので、吹き出しに文字が出た瞬間を目印に events.json の時刻へ合わせ直し、audio.wav と合わせて 1080×1920・30fps・H.264・AAC で書き出す
 7. 字幕（吹き出し）と声のタイミングがずれていないか、数枚の静止画で確認する
 
 ## クレジット

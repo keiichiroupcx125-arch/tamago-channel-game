@@ -17,9 +17,16 @@ for i in range(1, len(fr) - 6):
     if dark[i] > 0.02 and abs(dark[i] - dark[i - 1]) > 0.005:  # 吹き出しに新しい文字が出た
         if not ons or pts[i] - ons[-1] > 0.3: ons.append(pts[i])
 anc = [(0.0, off)]
-for k in sorted(voice_t):
+import os
+manual = os.environ.get('ANCHORS')  # 例 "2.90,6.82,..."（録画内の秒、offset抜き）
+mv = [float(v) + off for v in manual.split(',')] if manual else None
+for n, k in enumerate(sorted(voice_t)):
     t = voice_t[k]; v0 = anc[-1][1]
-    v = [c for c in ons if c > v0 + 0.3][0]
+    if mv: v = mv[n]
+    elif n == 6:
+        ph = (fr[:, 60:130, 30:80] > 240).mean((1, 2))
+        v = next(pts[i] for i in range(len(fr)) if pts[i] > v0 + 0.3 and ph[i] > 0.3 and dark[i] > 0.02 and ph[i-1:i+1].min() > 0.3)
+    else: v = [c for c in ons if c > v0 + 0.3][0]
     anc.append((t, v)); print('voice', k, 'event', round(t, 2), 'video', round(v - off, 2))
 anc = anc[1:]  # 先頭は外挿
 tt = np.array([a[0] for a in anc]); vv = np.array([a[1] for a in anc])
