@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="国ボールのゆる雑学チャンネル「たまごボール」のゲーム。国ボール くっつけパズルと国旗クイズで あそべるよ！">
+<meta name="description" content="国ボールのゆる雑学チャンネル「たまごボール」のゲーム。国旗まちがいさがし・国ボール くっつけパズル・国旗クイズで あそべるよ！">
 <meta property="og:title" content="たまごボール ゲーム">
-<meta property="og:description" content="国ボールのゆる雑学チャンネル「たまごボール」のゲーム。国ボール くっつけパズルと国旗クイズで あそべるよ！">
+<meta property="og:description" content="国ボールのゆる雑学チャンネル「たまごボール」のゲーム。国旗まちがいさがし・国ボール くっつけパズル・国旗クイズで あそべるよ！">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#7CCBF0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='white' stroke='%231D2742' stroke-width='6'/%3E%3Ccircle cx='50' cy='54' r='21' fill='%23D7263D'/%3E%3C/svg%3E">
@@ -93,8 +93,12 @@
   </section>
 
   <nav class="games" aria-label="ゲームをえらぶ">
-    <a class="game" href="kuttsuke/">
+    <a class="game" href="sagashi/">
       <span class="new">NEW</span>
+      <span class="icon" id="iconSagashi"></span>
+      <span><b>国旗<br>まちがいさがし</b><span class="sub">本物の国旗は どっち？ 5秒で 見やぶれ！ 全10問</span><span class="play">あそぶ ▶</span></span>
+    </a>
+    <a class="game" href="kuttsuke/">
       <span class="icon" id="iconPuzzle"></span>
       <span><b>国ボール<br>くっつけパズル</b><span class="sub">同じ国を くっつけると、ひとつ大きい国に！ さいごは ロシアを目指そう</span><span class="play">あそぶ ▶</span></span>
     </a>
@@ -155,6 +159,11 @@
   const hero = document.getElementById('heroBall').getContext('2d');
   hero.translate(110, 110); drawBall(hero, 'jp', 100, 'smile');
 
+  // まちがいさがし：日本の国旗（本物）と、丸がずれたニセモノ＋「？」
+  const sag = document.getElementById('iconSagashi');
+  const mini = (cx) => { const c = document.createElement('canvas'); c.width = 96; c.height = 64; c.style.width = '48px'; c.style.height = '32px'; const x = c.getContext('2d');
+    x.fillStyle = '#fff'; x.fillRect(0, 0, 96, 64); x.fillStyle = '#D7263D'; x.beginPath(); x.arc(cx, 32, 19, 0, 7); x.fill(); x.strokeStyle = INK; x.lineWidth = 5; x.strokeRect(2.5, 2.5, 91, 59); return c; };
+  sag.append(mini(48), '?', mini(34));
   const puzzle = document.getElementById('iconPuzzle');
   puzzle.append(ballCanvas('de', 25), '＋', ballCanvas('de', 25));
   const quiz = document.getElementById('iconQuiz');

@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="本物の国旗は どっち？ 5秒で見やぶれ！ 全10問。たまごボールの国旗まちがいさがし">
+<meta property="og:title" content="国旗まちがいさがし｜たまごボール">
+<meta property="og:description" content="本物の国旗は どっち？ 5秒で見やぶれ！ 全10問">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#7CCBF0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='white' stroke='%231D2742' stroke-width='6'/%3E%3Ccircle cx='50' cy='54' r='21' fill='%23D7263D'/%3E%3C/svg%3E">
+<title>たまごボール 国旗まちがいさがし</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+  [hidden] { display: none !important; }
+  :root {
+    color-scheme: light;
+    --sky-top: #7CCBF0; --sky-bottom: #D8F1FC;
+    --ink: #1D2742; --ink-soft: #4A5677; --egg: #FFF3D1; --paper: #fff;
+    --red: #D7263D; --gold: #F5B700; --ok: #22A95E; --ng: #E0484F; --line: rgba(29,39,66,.18);
+    --display: "Mochiy Pop One", "Hiragino Maru Gothic ProN", "Zen Maru Gothic", sans-serif;
+    --body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; height: 100%;
+  }
+  html, body { height: 100%; }
+  body { margin: 0; background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 70%) fixed, var(--sky-bottom); color: var(--ink); font-family: var(--body); font-weight: 700; font-size: 16px; line-height: 1.6; -webkit-tap-highlight-color: transparent; }
+  .app { max-width: 480px; margin: 0 auto; padding-inline: 16px; padding-block: 0 32px; min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
+
+  .bunting { position: relative; height: 46px; overflow: hidden; margin-inline: -16px; }
+  .bunting::before { content: ""; position: absolute; left: -10px; right: -10px; top: 6px; height: 30px; border-top: 2px solid var(--ink-soft); border-radius: 50% / 100% 100% 0 0; transform: scaleY(-1); transform-origin: top; }
+  .bunting-row { position: absolute; inset: 0; display: flex; justify-content: space-between; padding-inline: 8px; }
+  .bunting-row svg { width: 26px; height: auto; margin-top: 8px; border: 1px solid var(--line); transform-origin: top center; }
+  .bunting-row svg:nth-child(odd) { transform: rotate(-4deg); }
+  .bunting-row svg:nth-child(even) { transform: rotate(4deg); margin-top: 12px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; }
+  .brand { font-family: var(--display); font-size: 15px; display: flex; align-items: center; gap: 6px; }
+  .brand svg { width: 24px; height: 24px; }
+  .ghost { font: inherit; font-size: 13px; color: var(--ink); background: rgba(255,255,255,.6); border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px; cursor: pointer; text-decoration: none; }
+  .ghost:focus-visible, .btn:focus-visible, .pick:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .ball { display: block; width: 100%; height: 100%; overflow: visible; }
+
+  /* ホーム */
+  .hero { display: grid; justify-items: center; text-align: center; padding-block: 10px 4px; }
+  .hero .ballwrap { width: 110px; height: 110px; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-6px); } }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 9vw, 40px); line-height: 1.15; margin: 6px 0 0; text-wrap: balance; color: var(--paper); -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; letter-spacing: .02em; }
+  h1 small { display: block; font-size: .5em; -webkit-text-stroke-width: 5px; color: var(--gold); }
+  .tagline { margin: 8px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .rules { margin: 14px 0 0; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 10px 14px; box-shadow: 0 5px 0 var(--ink); font-size: 14px; }
+  .rules b { font-family: var(--display); font-weight: 400; color: var(--red); }
+  .best { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .btn { font: inherit; font-family: var(--display); font-size: 20px; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 999px; padding: 10px 28px; box-shadow: 0 5px 0 var(--ink); cursor: pointer; margin: 16px auto 0; display: block; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  .btn.sub { font-size: 15px; background: var(--paper); padding: 6px 20px; }
+
+  /* 問題 */
+  .hud { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; font-size: 13px; color: var(--ink-soft); }
+  .hud .no { font-family: var(--display); font-size: 18px; color: var(--ink); }
+  .timer { height: 12px; background: rgba(255,255,255,.7); border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+  .timer i { display: block; height: 100%; background: var(--ok); width: 100%; transition: width .1s linear, background .2s; }
+  .timer i.warn { background: var(--red); }
+  .say { display: grid; grid-template-columns: 52px 1fr; gap: 8px; align-items: start; margin-top: 12px; }
+  .say-ball { width: 52px; height: 52px; }
+  .bubble { position: relative; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 8px 12px; font-size: 15px; }
+  .bubble::before { content: ""; position: absolute; left: -12px; top: 16px; border: 6px solid transparent; border-right-color: var(--ink); border-left: 0; }
+  .qname { text-align: center; font-family: var(--display); font-size: 22px; margin-top: 12px; }
+  .qname small { display: block; font-family: var(--body); font-size: 13px; color: var(--ink-soft); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+  .pick { font: inherit; background: var(--paper); border: 3px solid var(--ink); border-radius: 18px; padding: 12px 10px 10px; box-shadow: 0 5px 0 var(--ink); cursor: pointer; display: grid; gap: 8px; justify-items: center; transition: transform .08s, box-shadow .08s; }
+  .pick:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+  .pick svg { width: 100%; height: auto; border: 1.5px solid var(--line); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+  .pick .lab { font-family: var(--display); font-size: 22px; }
+  .pick.ok { background: #E3F7EA; border-color: var(--ok); box-shadow: 0 5px 0 var(--ok); }
+  .pick.ng { background: #FDE6E7; border-color: var(--ng); box-shadow: 0 5px 0 var(--ng); }
+  .pick[disabled] { cursor: default; }
+  .verdict { text-align: center; font-family: var(--display); font-size: 30px; margin-top: 12px; min-height: 44px; }
+  .verdict.ok { color: var(--ok); } .verdict.ng { color: var(--ng); }
+  .fact { background: var(--egg); border: 2px solid var(--ink); border-radius: 12px; padding: 8px 12px; font-size: 14px; margin-top: 6px; }
+
+  /* 結果 */
+  .score { text-align: center; margin-top: 14px; }
+  .score .big { font-family: var(--display); font-size: 64px; line-height: 1; color: var(--paper); -webkit-text-stroke: 8px var(--ink); paint-order: stroke fill; }
+  .score .big small { font-size: .4em; -webkit-text-stroke-width: 5px; }
+  .rank { font-family: var(--display); font-size: 22px; color: var(--red); margin-top: 6px; }
+  .share { margin-top: 12px; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 10px 14px; font-size: 14px; }
+  .share code { display: block; background: var(--egg); border-radius: 8px; padding: 6px 10px; margin-top: 6px; font-family: var(--body); font-size: 15px; user-select: all; }
+  .yt { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #fff; text-decoration: none; background: #E0302E; border: 3px solid var(--ink); border-radius: 999px; padding: 6px 16px 6px 10px; box-shadow: 0 4px 0 var(--ink); }
+  .yt svg { width: 24px; height: 17px; }
+  .note { margin-top: 18px; font-size: 12px; font-weight: 500; color: var(--ink-soft); text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .hero .ballwrap { animation: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bunting" aria-hidden="true"><div class="bunting-row" id="bunting"></div></div>
+  <div class="topbar">
+    <a class="brand" href="../" aria-label="たまごボール ゲームえらびへ"><svg viewBox="0 0 100 100" id="brandBall"></svg>たまごボール</a>
+    <a class="ghost" href="../">← ゲームえらび</a>
+  </div>
+  <main id="view"></main>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  let uid = 0;
+  /* ===== ここから：クイズと同じ描画部品 ===== */
+    const bands = (vb, colors, vertical) => ({
+    vb, draw: () => {
+      const [, , w, h] = vb.split(' ').map(Number);
+      return colors.map((c, i) => vertical
+        ? `<rect x="${i * w / colors.length}" width="${w / colors.length + .05}" height="${h}" fill="${c}"/>`
+        : `<rect y="${i * h / colors.length}" width="${w}" height="${h / colors.length + .05}" fill="${c}"/>`).join('');
+    }
+  });
+  const FLAGS = {
+    jp: { vb: '0 0 30 20', draw: () => `<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#BC002D"/>` },
+    ch: { vb: '0 0 32 32', square: true, draw: () => `<rect width="32" height="32" fill="#DA291C"/><rect x="13" y="6" width="6" height="20" fill="#fff"/><rect x="6" y="13" width="20" height="6" fill="#fff"/>` },
+    se: { vb: '0 0 16 10', draw: () => `<rect width="16" height="10" fill="#006AA7"/><rect x="5" width="2" height="10" fill="#FECC00"/><rect y="4" width="16" height="2" fill="#FECC00"/>` },
+    fr: bands('0 0 30 20', ['#002395', '#fff', '#ED2939'], true),
+    it: bands('0 0 30 20', ['#009246', '#fff', '#CE2B37'], true),
+    de: bands('0 0 30 18', ['#000', '#DD0000', '#FFCE00'], false),
+    ru: bands('0 0 30 20', ['#fff', '#0039A6', '#D52B1E'], false),
+    br: { vb: '0 0 20 14', draw: () => `<rect width="20" height="14" fill="#009C3B"/><polygon points="1.7,7 10,1.2 18.3,7 10,12.8" fill="#FFDF00"/><circle cx="10" cy="7" r="3.5" fill="#002776"/><path d="M6.6 6.2 Q10 5.2 13.4 7.6 L13.3 8.2 Q10 5.9 6.55 6.9 Z" fill="#fff"/>` },
+    ca: { vb: '0 0 40 20', draw: () => `<rect width="40" height="20" fill="#fff"/><rect width="10" height="20" fill="#D80621"/><rect x="30" width="10" height="20" fill="#D80621"/><polygon fill="#D80621" points="20,3.2 21.2,5.4 22.6,4.8 22.1,8.2 24.4,6.2 24.9,7.4 27,7 26.3,9.2 27.3,9.7 23.6,12.8 24,14 20.4,13.6 20.4,16.6 19.6,16.6 19.6,13.6 16,14 16.4,12.8 12.7,9.7 13.7,9.2 13,7 15.1,7.4 15.6,6.2 17.9,8.2 17.4,4.8 18.8,5.4"/>` },
+    in: { vb: '0 0 30 20', draw: () => {
+      let spokes = '';
+      for (let i = 0; i < 24; i++) {
+        const a = i * Math.PI / 12;
+        spokes += `<line x1="15" y1="10" x2="${(15 + 2.6 * Math.cos(a)).toFixed(2)}" y2="${(10 + 2.6 * Math.sin(a)).toFixed(2)}" stroke="#06038D" stroke-width=".18"/>`;
+      }
+      return `<rect width="30" height="6.7" fill="#FF9933"/><rect y="6.6" width="30" height="6.8" fill="#fff"/><rect y="13.3" width="30" height="6.7" fill="#138808"/><circle cx="15" cy="10" r="2.8" fill="none" stroke="#06038D" stroke-width=".4"/>${spokes}`;
+    } },
+    kr: { vb: '0 0 30 20', draw: () => {
+      const tri = (x, y, rot, pattern) => {
+        let s = `<g transform="translate(${x} ${y}) rotate(${rot})">`;
+        pattern.forEach((broken, i) => {
+          const yy = -1.55 + i * 1.1;
+          s += broken
+            ? `<rect x="-2" y="${yy}" width="1.75" height=".65" fill="#000"/><rect x=".25" y="${yy}" width="1.75" height=".65" fill="#000"/>`
+            : `<rect x="-2" y="${yy}" width="4" height=".65" fill="#000"/>`;
+        });
+        return s + '</g>';
+      };
+      return `<rect width="30" height="20" fill="#fff"/>
+        <g transform="rotate(33.69 15 10)">
+          <circle cx="15" cy="10" r="5" fill="#0047A0"/>
+          <path d="M10 10 A5 5 0 0 1 20 10 A2.5 2.5 0 0 1 15 10 A2.5 2.5 0 0 0 10 10 Z" fill="#CD2E3A"/>
+        </g>
+        ${tri(7.9, 5.3, -56.31, [0, 0, 0])}${tri(22.1, 14.7, -56.31, [1, 1, 1])}
+        ${tri(22.1, 5.3, 56.31, [1, 0, 1])}${tri(7.9, 14.7, 56.31, [0, 1, 0])}`;
+    } },
+    gr: { vb: '0 0 27 18', draw: () => {
+      let s = '';
+      for (let i = 0; i < 9; i++) s += `<rect y="${i * 2}" width="27" height="2.05" fill="${i % 2 ? '#fff' : '#0D5EAF'}"/>`;
+      return s + `<rect width="10" height="10" fill="#0D5EAF"/><rect x="4" width="2" height="10" fill="#fff"/><rect y="4" width="10" height="2" fill="#fff"/>`;
+    } },
+    pw: { vb: '0 0 30 20', draw: () => `<rect width="30" height="20" fill="#4AADD6"/><circle cx="13" cy="10" r="5.5" fill="#FFDE00"/>` },
+    us: { vb: '0 0 38 20', draw: () => {
+      let s = '';
+      for (let i = 0; i < 13; i++) s += `<rect y="${i * 20 / 13}" width="38" height="${20 / 13 + .03}" fill="${i % 2 ? '#fff' : '#B22234'}"/>`;
+      return s + `<rect width="15.2" height="10.77" fill="#3C3B6E"/>`;
+    } },
+  };
+
+
+  function ballBody(c) {
+    switch (c) {
+      case 'jp': return `<rect width="100" height="100" fill="#fff"/><circle cx="50" cy="54" r="21" fill="#D7263D"/>`;
+      case 'de': return `<rect width="100" height="34" fill="#1B1B1B"/><rect y="33" width="100" height="34" fill="#DD0000"/><rect y="66" width="100" height="34" fill="#FFCE00"/>`;
+      case 'ru': return `<rect width="100" height="34" fill="#fff"/><rect y="33" width="100" height="34" fill="#0039A6"/><rect y="66" width="100" height="34" fill="#D52B1E"/>`;
+      case 'pw': return `<rect width="100" height="100" fill="#4AADD6"/><circle cx="43" cy="54" r="21" fill="#FFDE00"/>`;
+      case 'in': return `<rect width="100" height="34" fill="#FF9933"/><rect y="33" width="100" height="34" fill="#fff"/><rect y="66" width="100" height="34" fill="#138808"/><circle cx="50" cy="50" r="10" fill="none" stroke="#000080" stroke-width="2.5"/>`;
+      case 'us': {
+        let s = '';
+        for (let i = 0; i < 13; i++) s += `<rect y="${i * 7.7}" width="100" height="7.8" fill="${i % 2 ? '#fff' : '#B22234'}"/>`;
+        s += `<rect width="46" height="54" fill="#3C3B6E"/>`;
+        for (let r = 0; r < 4; r++) for (let k = 0; k < 4; k++) s += `<circle cx="${10 + k * 9 + (r % 2) * 4}" cy="${12 + r * 10}" r="1.7" fill="#fff"/>`;
+        return s;
+      }
+    }
+    return '';
+  }
+
+
+  function eyes(kind) {
+    const one = (x) => {
+      if (kind === 'smile') return `<path d="M${x-7} 45 q7 -10 14 0" fill="none" stroke="#1D2742" stroke-width="3.5" stroke-linecap="round"/>`;
+      if (kind === 'closed') return `<path d="M${x-7} 41 q7 6 14 0" fill="none" stroke="#1D2742" stroke-width="3.5" stroke-linecap="round"/>`;
+      return `<ellipse cx="${x}" cy="41" rx="7" ry="10" fill="#fff" stroke="#1D2742" stroke-width="2.5"/>`;
+    };
+    return one(37) + one(63);
+  }
+  function ball(c, eye = 'normal') {
+    const id = 'b' + (++uid);
+    return `<svg class="ball" viewBox="0 0 100 100" aria-hidden="true">
+      <defs><clipPath id="${id}"><circle cx="50" cy="50" r="46"/></clipPath></defs>
+      <g clip-path="url(#${id})">${ballBody(c)}
+        <ellipse cx="33" cy="24" rx="13" ry="7" fill="#fff" opacity=".35" transform="rotate(-25 33 24)"/>
+      </g>
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#1D2742" stroke-width="3"/>
+      ${eyes(eye)}
+    </svg>`;
+  }
+
+
+  /* ===== ここまで ===== */
+
+  const NAMES = { jp: '日本', ch: 'スイス', se: 'スウェーデン', fr: 'フランス', it: 'イタリア', de: 'ドイツ', ru: 'ロシア', br: 'ブラジル', ca: 'カナダ', in: 'インド', kr: '韓国', gr: 'ギリシャ', pw: 'パラオ', us: 'アメリカ' };
+
+  /* ニセ国旗の作り方：本物のSVG文字列をいじる */
+  const swapColors = (s, a, b) => s.split(a).join('\u0000').split(b).join(a).split('\u0000').join(b);
+  const FAKES = {
+    jp: [ ['丸が 左に ずれている', s => s.replace('cx="15"', 'cx="11"')], ['丸が ちょっと 小さい', s => s.replace('r="6"', 'r="4.2"')], ['丸の色が オレンジ', s => s.replace('#BC002D', '#F07C1E')] ],
+    ch: [ ['十字が 細い', s => s.replace('width="6" height="20"', 'width="4" height="20"').replace('width="20" height="6"', 'width="20" height="4"')], ['十字が 上に ずれている', s => s.replace('y="6" width="6" height="20"', 'y="2" width="6" height="20"').replace('y="13" width="20" height="6"', 'y="9" width="20" height="6"')] ],
+    se: [ ['十字が まんなか', s => s.replace('x="5"', 'x="7"')], ['色が 反対', s => swapColors(s, '#006AA7', '#FECC00')] ],
+    fr: [ ['青と赤が 反対', s => swapColors(s, '#002395', '#ED2939')], ['しまが よこ', null, ['h', ['#002395', '#fff', '#ED2939']]] ],
+    it: [ ['緑と赤が 反対', s => swapColors(s, '#009246', '#CE2B37')], ['しまが よこ', null, ['h', ['#009246', '#fff', '#CE2B37']]] ],
+    de: [ ['ならびが 反対（黄・赤・黒）', s => swapColors(s, '#000', '#FFCE00')], ['しまが たて', null, ['v', ['#000', '#DD0000', '#FFCE00']]] ],
+    ru: [ ['青と赤が 反対', s => swapColors(s, '#0039A6', '#D52B1E')], ['白が いちばん下', null, ['h', ['#0039A6', '#D52B1E', '#fff']]] ],
+    br: [ ['まんなかの丸が 緑', s => s.replace('fill="#002776"', 'fill="#009C3B"')], ['まわりが 青', s => s.replace('<rect width="20" height="14" fill="#009C3B"/>', '<rect width="20" height="14" fill="#002776"/>')] ],
+    ca: [ ['葉っぱが 青', s => s.split('fill="#D80621" points').join('fill="#2255CC" points')], ['りょうはしが 白、まんなかが 赤', s => s.replace('<rect width="40" height="20" fill="#fff"/>', '<rect width="40" height="20" fill="#fff"/><rect x="10" width="20" height="20" fill="#D80621"/>').replace('<rect width="10" height="20" fill="#D80621"/><rect x="30" width="10" height="20" fill="#D80621"/>', '').replace(/<polygon fill="#D80621"/, '<polygon fill="#fff"')] ],
+    in: [ ['オレンジと緑が 反対', s => swapColors(s, '#FF9933', '#138808')], ['輪の色が 赤', s => s.split('#06038D').join('#D7263D')] ],
+    kr: [ ['うずまきの色が 反対', s => swapColors(s, '#0047A0', '#CD2E3A')], ['かどの黒い線が ない', s => s.replace(/<g transform="translate[\s\S]*?<\/g>/g, '')] ],
+    gr: [ ['しまが 赤', s => s.split('#0D5EAF').join('#D7263D')], ['十字が 右上', s => s.replace('<rect width="10" height="10" fill="#0D5EAF"/><rect x="4" width="2" height="10" fill="#fff"/><rect y="4" width="10" height="2" fill="#fff"/>', '<rect x="17" width="10" height="10" fill="#0D5EAF"/><rect x="21" width="2" height="10" fill="#fff"/><rect x="17" y="4" width="10" height="2" fill="#fff"/>')] ],
+    pw: [ ['丸が まんなか', s => s.replace('cx="13"', 'cx="15"')], ['丸が 白', s => s.replace('#FFDE00', '#ffffff')] ],
+    us: [ ['青いところが 右上', s => s.replace('<rect width="15.2" height="10.77" fill="#3C3B6E"/>', '<rect x="22.8" width="15.2" height="10.77" fill="#3C3B6E"/>')], ['しまが 青', s => s.split('#B22234').join('#3C3B6E').replace('<rect width="15.2" height="10.77" fill="#3C3B6E"/>', '<rect width="15.2" height="10.77" fill="#B22234"/>')] ],
+  };
+  function realSVG(code) { const f = FLAGS[code]; return { vb: f.vb, body: f.draw() }; }
+  function fakeSVG(code) {
+    const list = FAKES[code]; const [why, fn, rot] = list[Math.floor(Math.random() * list.length)];
+    const f = FLAGS[code]; let vb = f.vb, body = f.draw();
+    if (rot) body = bands(vb, rot[1], rot[0] === 'v').draw(); // しまの向き・ならびを指定して描き直す
+    else body = fn(body);
+    return { vb, body, why };
+  }
+  const svgTag = (o) => `<svg viewBox="${o.vb}" role="img" aria-label="国旗">${o.body}</svg>`;
+
+  /* ===== 進行 ===== */
+  const N = 10, LIMIT = 5000;
+  const CODES = Object.keys(FAKES);
+  const FACTS = { jp: 'まんなかの赤い丸は 太陽なんだよ', ch: '赤十字のマークは この旗の色を 反対にしたもの', se: '十字が 左に よっているのが ポイント', fr: '青・白・赤の じゅんばん。イタリアと まちがえやすい', it: '緑・白・赤。フランスに 似ているけど 色がちがう', de: '上から 黒・赤・金（黄）の じゅんばん', ru: '上から 白・青・赤。フランスと 同じ色！', br: '青い丸は 夜空の星。緑は 森、黄色は 金', ca: 'カエデの葉っぱ。メープルシロップの国', in: '青い輪は 24本の線で できている', kr: 'まんなかは 赤と青のうずまき。かどには 黒い線', gr: '青と白の しまは 9本。左上に 十字', pw: '黄色い丸は 月。ちょっと左に よっている', us: '星のところは 左上。しまは 13本' };
+  let qs = [], i = 0, score = 0, timer = null, t0 = 0, raf = 0;
+  const best = () => { try { return +localStorage.getItem('sagashi_best') || 0; } catch { return 0; } };
+  const setBest = (v) => { try { localStorage.setItem('sagashi_best', v); } catch {} };
+
+  function home() {
+    stop();
+    $('#view').innerHTML = `
+      <section class="hero">
+        <div class="ballwrap">${ball('jp', 'smile')}</div>
+        <h1><small>たまごボール</small>国旗<br>まちがいさがし</h1>
+        <p class="tagline">本物の国旗は どっち？</p>
+      </section>
+      <div class="rules">ひとつは <b>本物</b>、ひとつは <b>ニセモノ</b>。<br>本物を えらんでね。<b>5秒</b>で えらばないと ×。全10問！</div>
+      <div class="best">${best() ? `いままでの さいこう：${best()}問` : 'はじめて あそぶよ'}</div>
+      <button class="btn" id="start">スタート！</button>
+      <p class="note">動画を見た人は きっと わかる…かも？</p>`;
+    $('#start').onclick = start;
+  }
+  function start() {
+    qs = [...CODES].sort(() => Math.random() - .5).slice(0, N); i = 0; score = 0; ask();
+  }
+  function stop() { clearTimeout(timer); cancelAnimationFrame(raf); }
+  function ask() {
+    stop();
+    const code = qs[i]; const real = realSVG(code), fake = fakeSVG(code); const realLeft = Math.random() < .5;
+    const L = realLeft ? real : fake, R = realLeft ? fake : real;
+    $('#view').innerHTML = `
+      <div class="hud"><span class="no">第${i + 1}問 <small>/ ${N}</small></span><span>せいかい ${score}</span></div>
+      <div class="timer"><i id="bar"></i></div>
+      <div class="say"><div class="say-ball">${ball(['jp','pw','de','us'][i % 4])}</div><div class="bubble">本物の <b>${NAMES[code]}</b> の国旗は どっち？</div></div>
+      <div class="pair">
+        <button class="pick" data-real="${realLeft}" id="pL"><span class="lab">A</span>${svgTag(L)}</button>
+        <button class="pick" data-real="${!realLeft}" id="pR"><span class="lab">B</span>${svgTag(R)}</button>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div id="factbox"></div>`;
+    $('#pL').onclick = $('#pR').onclick = (e) => answer(e.currentTarget.dataset.real === 'true', fake.why, code);
+    t0 = performance.now();
+    const tick = () => { const p = Math.max(0, 1 - (performance.now() - t0) / LIMIT); const b = $('#bar'); if (!b) return; b.style.width = (p * 100) + '%'; b.classList.toggle('warn', p < .35); if (p > 0) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+    timer = setTimeout(() => answer(null, fake.why, code), LIMIT);
+  }
+  function answer(ok, why, code) {
+    stop();
+    const picks = document.querySelectorAll('.pick'); picks.forEach(p => { p.disabled = true; p.classList.add(p.dataset.real === 'true' ? 'ok' : 'ng'); });
+    const v = $('#verdict');
+    if (ok === true) { score++; v.textContent = 'せいかい！'; v.className = 'verdict ok'; }
+    else if (ok === false) { v.textContent = 'ざんねん…'; v.className = 'verdict ng'; }
+    else { v.textContent = '時間切れ！'; v.className = 'verdict ng'; }
+    $('#factbox').innerHTML = `<div class="fact">ニセモノは「${why}」。${FACTS[code]}</div>`;
+    setTimeout(() => { i++; i < N ? ask() : result(); }, ok === true ? 1300 : 2200);
+  }
+  function result() {
+    const b = best(); if (score > b) setBest(score);
+    const rank = score === 10 ? '国旗マスター！' : score >= 8 ? 'すごい！ 国旗はかせ' : score >= 5 ? 'なかなか やるね！' : score >= 3 ? 'もうすこし！' : '動画を 見て 出直そう！';
+    const text = `国旗まちがいさがし ${score}/10 ${score === 10 ? '🏆' : score >= 8 ? '🎉' : '👀'} #たまごボール`;
+    $('#view').innerHTML = `
+      <section class="hero"><div class="ballwrap">${ball(score >= 5 ? 'jp' : 'de', score >= 5 ? 'smile' : 'closed')}</div></section>
+      <div class="score"><div class="big">${score}<small>/10</small></div><div class="rank">${rank}</div>
+        <div class="best">${score > b ? 'さいこう記録 こうしん！' : `いままでの さいこう：${Math.max(b, score)}問`}</div></div>
+      <div class="share">コメントに はりつけてね：<code>${text}</code></div>
+      <button class="btn" id="again">もういちど</button>
+      <div style="display:grid;justify-items:center;gap:8px;margin-top:16px">
+        <a class="yt" href="https://www.youtube.com/@%E3%81%9F%E3%81%BE%E3%81%94%E3%83%9C%E3%83%BC%E3%83%AB-f2j" target="_blank" rel="noopener"><svg viewBox="0 0 24 17" aria-hidden="true"><rect width="24" height="17" rx="5" fill="#fff"/><path d="M9.5 4.5v8l6.5-4z" fill="#E0302E"/></svg>YouTubeチャンネルを見る</a>
+        <a class="ghost" href="../">ほかのゲームで あそぶ</a>
+      </div>`;
+    $('#again').onclick = start;
+  }
+
+  /* 万国旗・ロゴ */
+  $('#bunting').innerHTML = ['jp','us','de','ru','in','fr','br','ch','gr','jp','pw','it','kr','ca','se'].map(c => svgTag(realSVG(c))).join('');
+  $('#brandBall').outerHTML = ball('jp', 'smile');
+  home();
+})();
+</script>
+</body>
+</html>
