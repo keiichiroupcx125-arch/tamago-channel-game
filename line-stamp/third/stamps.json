@@ -1,0 +1,6 @@
+[
+ {"id":"jp-01","c":"jp","eye":"closed","tilt":12,"dx":-10,"dy":8,"sq":0.04,"sym":"none","lines":["承知","しました"]},
+ {"id":"jp-02","c":"jp","eye":"smile","tilt":-10,"dy":-2,"sym":"hearts","lines":["ありがとう","ございます"]},
+ {"id":"jp-03","c":"jp","eye":"closed","tilt":22,"dx":-14,"dy":10,"sq":0.05,"sym":"drop","lines":["お疲れ","さまです"]},
+ {"id":"jp-04","c":"jp","eye":"closed","tilt":32,"dx":-12,"dy":12,"sq":0.08,"sym":"sweat2","lines":["ごめん","なさい"]}
+]
