@@ -2,7 +2,7 @@
  {
   "id": "jp-01",
   "c": "jp",
-  "eye": "closed",
+  "eye": "majime",
   "thick": 1,
   "r": 75,
   "tilt": 15,
@@ -12,12 +12,13 @@
   "lines": [
    "承知",
    "しました"
-  ]
+  ],
+  "jpy": 0.3
  },
  {
   "id": "jp-02",
   "c": "jp",
-  "eye": "smile",
+  "eye": "nikkori",
   "thick": 1,
   "r": 75,
   "tilt": 35,
@@ -27,12 +28,13 @@
   "lines": [
    "ありがとう",
    "ございます"
-  ]
+  ],
+  "jpy": 0.3
  },
  {
   "id": "jp-03",
   "c": "jp",
-  "eye": "closed",
+  "eye": "hotto",
   "thick": 1,
   "r": 75,
   "tilt": 0,
@@ -42,12 +44,13 @@
   "lines": [
    "お疲れ",
    "さまです"
-  ]
+  ],
+  "jpy": 0.3
  },
  {
   "id": "jp-04",
   "c": "jp",
-  "eye": "closed",
+  "eye": "gomen",
   "thick": 1,
   "r": 75,
   "k": 0.88,
@@ -58,7 +61,8 @@
   "lines": [
    "ごめん",
    "なさい"
-  ]
+  ],
+  "jpy": 0.3
  },
  {
   "id": "us-01",

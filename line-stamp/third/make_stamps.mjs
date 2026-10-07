@@ -13,7 +13,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
 
 const src = fs.readFileSync(path.join(root, 'kuttsuke/index.html'), 'utf8');
 const a = src.indexOf('function paintBody'), b = src.indexOf('function iconBall');
-const ballCode = `const INK='#1D2742';\n` + src.slice(a, b).replace('const ex = .26 * r', "if (eye === 'none') { ctx.restore(); return; }\n    const ex = .26 * r");
+const ballCode = `const INK='#1D2742';\n` + src.slice(a, b).replace('const ex = .26 * r', "if (eye === 'none') { ctx.restore(); return; }\n    const ex = .26 * r").replace("dot(0, .08 * r, .42 * r, '#D7263D')", "dot(0, (window.JPY ?? .08) * r, .42 * r, '#D7263D')");
 
 const W = 370, H = 320, M = 10;
 const STAMPS = JSON.parse(fs.readFileSync(path.join(here, 'stamps.json'), 'utf8'));
@@ -34,12 +34,13 @@ function exclaim(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap
 function check(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#fff';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-3,10);ctx.lineTo(13,-10);ctx.stroke();ctx.strokeStyle='#2FA84F';ctx.lineWidth=7;ctx.stroke();ctx.restore();}
 function zzz(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=INK;ctx.lineWidth=4.5;ctx.beginPath();ctx.moveTo(-9,-8);ctx.lineTo(9,-8);ctx.lineTo(-9,9);ctx.lineTo(9,9);ctx.stroke();ctx.restore();}
 function note(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.fillStyle=INK;ctx.strokeStyle=INK;ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.ellipse(-5,10,7,5,-.4,0,7);ctx.fill();ctx.beginPath();ctx.moveTo(1,8);ctx.lineTo(1,-12);ctx.quadraticCurveTo(10,-8,13,0);ctx.stroke();ctx.restore();}
-function thickEyes(kind,r){const ex=.3*r,ey=-.16*r,w=.17*r;ctx.lineCap='round';
-  for(const pass of [0,1]){ctx.lineWidth=pass?r*.13:r*.25;ctx.strokeStyle=pass?INK:'#fff';
-    for(const sg of [-1,1]){ctx.beginPath();
-      if(kind==='smile'){ctx.moveTo(sg*ex-w,ey+.08*r);ctx.quadraticCurveTo(sg*ex,ey-.2*r,sg*ex+w,ey+.08*r);}
-      else{ctx.moveTo(sg*ex-w,ey-.02*r);ctx.quadraticCurveTo(sg*ex,ey+.16*r,sg*ex+w,ey-.02*r);}
-      ctx.stroke();}}}
+function eyes4(kind,r,px,py){ctx.save();ctx.translate(px,py);ctx.lineCap='round';ctx.strokeStyle=INK;ctx.fillStyle=INK;const ex=.3*r,w=.15*r;ctx.lineWidth=r*.12;
+  for(const sg of [-1,1]){ctx.beginPath();
+    if(kind==='nikkori'){ctx.moveTo(sg*ex-w,-.03*r);ctx.quadraticCurveTo(sg*ex,.2*r,sg*ex+w,-.03*r);ctx.stroke();}
+    else if(kind==='majime'){ctx.moveTo(sg*ex-w,0);ctx.lineTo(sg*ex+w,0);ctx.stroke();}
+    else if(kind==='hotto'){ctx.moveTo(sg*(ex-w),-.08*r);ctx.quadraticCurveTo(sg*ex,-.04*r,sg*(ex+w),.09*r);ctx.stroke();}
+    else if(kind==='gomen'){ctx.lineWidth=r*.1;ctx.moveTo(sg*(ex+w),-.1*r);ctx.lineTo(sg*(ex-.8*w),-.25*r);ctx.stroke();ctx.beginPath();ctx.arc(sg*ex,.07*r,.06*r,0,7);ctx.fill();}
+  }ctx.restore();}
 function flower(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineWidth=2.6;ctx.strokeStyle=INK;ctx.fillStyle='#FF8FB0';
   for(let i=0;i<5;i++){ctx.save();ctx.rotate(i*Math.PI*2/5);ctx.beginPath();ctx.ellipse(0,-10,7.5,9,0,0,7);ctx.fill();ctx.stroke();ctx.restore();}
   ctx.beginPath();ctx.arc(0,0,6,0,7);ctx.fillStyle='#FFD84A';ctx.fill();ctx.stroke();ctx.restore();}
@@ -51,10 +52,11 @@ const SYM={drop:(cx,cy,r)=>drop(cx+r*.95,cy-r*.55,1),hearts:(cx,cy,r)=>{heart(cx
  drops1:(cx,cy,r)=>drop(cx+r*.95,cy-r*.5,1.25*r/58),
  drops2:(cx,cy,r)=>{const k=r/58;drop(cx+r*.92,cy-r*.55,1.3*k);drop(cx+r*1.1,cy-r*.05,.85*k);},none:()=>{}};
 function render(s){
+  window.JPY=s.jpy;
   ctx.clearRect(0,0,W,H);
   const r=s.r||58,cx=W/2+(s.dx||0),cy=M+r+10+(s.dy||0);
   ctx.save();ctx.translate(cx,cy);ctx.rotate(s.tilt*Math.PI/180);ctx.scale((1+(s.sq||0))*(s.k||1),(1-(s.sq||0))*(s.k||1));
-  drawBall(ctx,s.c,r,s.thick?'none':s.eye);if(s.thick)thickEyes(s.eye,r);ctx.restore();
+  drawBall(ctx,s.c,r,s.thick?'none':s.eye);ctx.restore();if(s.thick){const t=s.tilt*Math.PI/180,kk=s.k||1,sx=(1+(s.sq||0))*kk,sy=(1-(s.sq||0))*kk,ey=-.4*r;eyes4(s.eye,r*kk,cx-ey*sy*Math.sin(t),cy+ey*sy*Math.cos(t));}
   (SYM[s.sym]||SYM.none)(cx,cy,r);
   const lines=s.lines,maxW=W-2*M-16;
   const top=cy+r+(s.gap||6),bot=H-M-8;let size=Math.min(Math.floor((bot-top)/(lines.length*1.06)),Math.floor(maxW/Math.max(...lines.map(t=>t.length))));
