@@ -30,9 +30,15 @@ function drop(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.beginPath(
 function heart(x,y,s,col){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.beginPath();ctx.moveTo(0,8);ctx.bezierCurveTo(-16,-4,-8,-16,0,-7);ctx.bezierCurveTo(8,-16,16,-4,0,8);ctx.fillStyle=col;ctx.fill();ctx.lineWidth=2.4;ctx.strokeStyle=INK;ctx.stroke();ctx.restore();}
 function spark(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.beginPath();ctx.moveTo(0,-12);ctx.quadraticCurveTo(2,-2,12,0);ctx.quadraticCurveTo(2,2,0,12);ctx.quadraticCurveTo(-2,2,-12,0);ctx.quadraticCurveTo(-2,-2,0,-12);ctx.fillStyle='#FFD84A';ctx.fill();ctx.lineWidth=2.4;ctx.strokeStyle=INK;ctx.stroke();ctx.restore();}
 function line(x,y,s,rot){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.lineCap='round';ctx.strokeStyle=INK;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-s,0);ctx.lineTo(s,0);ctx.stroke();ctx.restore();}
+function exclaim(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.strokeStyle=INK;ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(0,-14);ctx.lineTo(0,3);ctx.stroke();ctx.fillStyle=INK;ctx.beginPath();ctx.arc(0,13,4.2,0,7);ctx.fill();ctx.restore();}
+function check(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#fff';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(-12,0);ctx.lineTo(-3,10);ctx.lineTo(13,-10);ctx.stroke();ctx.strokeStyle='#2FA84F';ctx.lineWidth=7;ctx.stroke();ctx.restore();}
+function zzz(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=INK;ctx.lineWidth=4.5;ctx.beginPath();ctx.moveTo(-9,-8);ctx.lineTo(9,-8);ctx.lineTo(-9,9);ctx.lineTo(9,9);ctx.stroke();ctx.restore();}
+function note(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.fillStyle=INK;ctx.strokeStyle=INK;ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.ellipse(-5,10,7,5,-.4,0,7);ctx.fill();ctx.beginPath();ctx.moveTo(1,8);ctx.lineTo(1,-12);ctx.quadraticCurveTo(10,-8,13,0);ctx.stroke();ctx.restore();}
 const SYM={drop:(cx,cy,r)=>drop(cx+r*.95,cy-r*.55,1),hearts:(cx,cy,r)=>{heart(cx+r*.98,cy-r*.62,1.05,'#FF6F8E');heart(cx-r*1.0,cy-r*.3,.75,'#FF9DB3');},
  spark:(cx,cy,r)=>{spark(cx+r*.95,cy-r*.6,1.1);spark(cx-r*.98,cy-r*.45,.7);},
- sweat2:(cx,cy,r)=>{drop(cx+r*1.0,cy-r*.45,1);line(cx+r*.62,cy-r*1.08,7,-.9);line(cx+r*.95,cy-r*.98,7,-.35);},none:()=>{}};
+ sweat2:(cx,cy,r)=>{drop(cx+r*1.0,cy-r*.45,1);line(cx+r*.62,cy-r*1.08,7,-.9);line(cx+r*.95,cy-r*.98,7,-.35);},exclaim:(cx,cy,r)=>exclaim(cx+r*1.0,cy-r*.5,1),check:(cx,cy,r)=>check(cx+r*1.02,cy-r*.52,1),
+ zzz:(cx,cy,r)=>{zzz(cx+r*.9,cy-r*.45,1);zzz(cx+r*1.12,cy-r*.98,.65);},note:(cx,cy,r)=>{note(cx+r*1.0,cy-r*.55,1);note(cx-r*1.0,cy-r*.3,.7);},
+ speed:(cx,cy,r)=>{line(cx-r*1.12,cy-r*.3,10,0);line(cx-r*1.12,cy+r*.1,10,0);line(cx-r*.95,cy+r*.5,8,0);},none:()=>{}};
 function render(s){
   ctx.clearRect(0,0,W,H);
   const r=58,cx=W/2+(s.dx||0),cy=M+r+10+(s.dy||0);

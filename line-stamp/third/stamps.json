@@ -1,6 +1,206 @@
 [
- {"id":"jp-01","c":"jp","eye":"closed","tilt":12,"dx":-10,"dy":8,"sq":0.04,"sym":"none","lines":["承知","しました"]},
- {"id":"jp-02","c":"jp","eye":"smile","tilt":-10,"dy":-2,"sym":"hearts","lines":["ありがとう","ございます"]},
- {"id":"jp-03","c":"jp","eye":"closed","tilt":22,"dx":-14,"dy":10,"sq":0.05,"sym":"drop","lines":["お疲れ","さまです"]},
- {"id":"jp-04","c":"jp","eye":"closed","tilt":32,"dx":-12,"dy":12,"sq":0.08,"sym":"sweat2","lines":["ごめん","なさい"]}
+ {
+  "id": "jp-01",
+  "c": "jp",
+  "eye": "closed",
+  "tilt": 12,
+  "dx": -10,
+  "dy": 8,
+  "sq": 0.04,
+  "sym": "none",
+  "lines": [
+   "承知",
+   "しました"
+  ]
+ },
+ {
+  "id": "jp-02",
+  "c": "jp",
+  "eye": "smile",
+  "tilt": -10,
+  "dy": -2,
+  "sym": "hearts",
+  "lines": [
+   "ありがとう",
+   "ございます"
+  ]
+ },
+ {
+  "id": "jp-03",
+  "c": "jp",
+  "eye": "closed",
+  "tilt": 22,
+  "dx": -14,
+  "dy": 10,
+  "sq": 0.05,
+  "sym": "drop",
+  "lines": [
+   "お疲れ",
+   "さまです"
+  ]
+ },
+ {
+  "id": "jp-04",
+  "c": "jp",
+  "eye": "closed",
+  "tilt": 32,
+  "dx": -12,
+  "dy": 12,
+  "sq": 0.08,
+  "sym": "sweat2",
+  "lines": [
+   "ごめん",
+   "なさい"
+  ]
+ },
+ {
+  "id": "us-01",
+  "c": "us",
+  "eye": "smile",
+  "tilt": -12,
+  "dy": -2,
+  "sym": "spark",
+  "lines": [
+   "最高！"
+  ]
+ },
+ {
+  "id": "us-02",
+  "c": "us",
+  "eye": "smile",
+  "tilt": 14,
+  "dx": -8,
+  "dy": 4,
+  "sym": "exclaim",
+  "lines": [
+   "ナイス！"
+  ]
+ },
+ {
+  "id": "us-03",
+  "c": "us",
+  "eye": "normal",
+  "tilt": -6,
+  "dy": -4,
+  "sym": "spark",
+  "lines": [
+   "おはよう！"
+  ]
+ },
+ {
+  "id": "us-04",
+  "c": "us",
+  "eye": "smile",
+  "tilt": 18,
+  "dx": -14,
+  "dy": 6,
+  "sq": -0.04,
+  "sym": "speed",
+  "lines": [
+   "いっしょに",
+   "行こう！"
+  ]
+ },
+ {
+  "id": "de-01",
+  "c": "de",
+  "eye": "normal",
+  "tilt": 0,
+  "dy": 0,
+  "sym": "exclaim",
+  "lines": [
+   "5分前に",
+   "着いてます"
+  ]
+ },
+ {
+  "id": "de-02",
+  "c": "de",
+  "eye": "normal",
+  "tilt": -4,
+  "dy": 0,
+  "sym": "check",
+  "lines": [
+   "了解、",
+   "きっちりやる"
+  ]
+ },
+ {
+  "id": "de-03",
+  "c": "de",
+  "eye": "normal",
+  "tilt": 6,
+  "dy": 2,
+  "sym": "check",
+  "lines": [
+   "確認",
+   "したよ"
+  ]
+ },
+ {
+  "id": "de-04",
+  "c": "de",
+  "eye": "closed",
+  "tilt": -14,
+  "dx": 8,
+  "dy": 8,
+  "sq": 0.04,
+  "sym": "zzz",
+  "lines": [
+   "おやすみ",
+   "ちゃんと寝る"
+  ]
+ },
+ {
+  "id": "pw-01",
+  "c": "pw",
+  "eye": "smile",
+  "tilt": -8,
+  "dy": 2,
+  "sym": "note",
+  "lines": [
+   "ゆっくりで",
+   "いいよ"
+  ]
+ },
+ {
+  "id": "pw-02",
+  "c": "pw",
+  "eye": "closed",
+  "tilt": 10,
+  "dx": -8,
+  "dy": 6,
+  "sq": 0.04,
+  "sym": "none",
+  "lines": [
+   "まあ",
+   "いっか"
+  ]
+ },
+ {
+  "id": "pw-03",
+  "c": "pw",
+  "eye": "closed",
+  "tilt": -16,
+  "dx": 8,
+  "dy": 10,
+  "sq": 0.06,
+  "sym": "zzz",
+  "lines": [
+   "おつかれ、",
+   "ひと休み"
+  ]
+ },
+ {
+  "id": "pw-04",
+  "c": "pw",
+  "eye": "smile",
+  "tilt": -10,
+  "dy": 0,
+  "sym": "hearts",
+  "lines": [
+   "ありが",
+   "とう〜"
+  ]
+ }
 ]
