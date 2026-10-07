@@ -101,6 +101,36 @@ def short(A,B):
     if e!=q: text(d,(W/2,540),f"ざっくり予想の {e} は ちょっと ちがった → {q} にちょうせい！",36,RED)
     else: text(d,(W/2,540),"予想どおり！ すごい！",40,GREEN)
     save(im,8)
+
+def hissan(A,B,num,secs=4):
+    q=A//B; p=B*q; r=A-p
+    ds=str(A); n=len(ds); cw=100; x0=480; y0=230
+    for stage in (1,2,3):
+        im,d=new()
+        text(d,(W/2,60),f"{num}  {A} ÷ {B}  の 筆算",44,BLUE)
+        # bracket
+        d.line([x0-20,y0-45,x0-20,y0+55],fill=INK,width=5)
+        d.line([x0-20,y0-45,x0+n*cw+10,y0-45],fill=INK,width=5)
+        text(d,(x0-80,y0),f"{B}",64,INK,"rm")
+        for i,c in enumerate(ds): text(d,(x0+i*cw+cw/2,y0),c,64)
+        def col(k): return x0+(n-1-k)*cw+cw/2   # k=0 ones place
+        text(d,(col(0),y0-90),f"{q}",64,RED)
+        cap=""
+        if stage>=1: cap=f"① {A} の中に {B} が {q}回 入る → 一の位に {q} をたてる"
+        if stage>=2:
+            ps=str(p)
+            for k,c in enumerate(reversed(ps)): text(d,(col(k),y0+90),c,64,GREEN)
+            d.line([x0-10,y0+135,x0+n*cw,y0+135],fill=INK,width=4)
+            cap=f"② {B} × {q} = {p} を下に書く"
+        if stage>=3:
+            rs=str(r)
+            for k,c in enumerate(reversed(rs)): text(d,(col(k),y0+190),c,64,ORANGE)
+            cap=f"③ {A} - {p} = {r}" + ("  あまり" if r else "  ぴったり！")
+        text(d,(W/2,540),cap,44)
+        if stage==3:
+            text(d,(W/2,620),f"答え  {q}"+(f" あまり {r}" if r else "")+f"    たしかめ  {B}×{q}"+(f"+{r}" if r else "")+f" = {A}",40,BLUE)
+        save(im,secs)
+
 def section(t,sub):
     im,d=new(); text(d,(W/2,300),t,76,BLUE); text(d,(W/2,430),sub,40); save(im,3.5)
 def outro():
@@ -111,10 +141,19 @@ def outro():
     text(d,(W/2,660),"まちがえても大丈夫！ 直せたらそれが成長",36,GREEN); save(im,9)
 
 intro()
-section("れいだい①","359 ÷ 58"); question(359,58); bars(359,58); e=estimate(359,58); check(359,58,e); answer(359,58)
-section("れいだい②","180 ÷ 34（予想がズレる例）"); question(180,34); bars(180,34); e=estimate(180,34); check(180,34,e); answer(180,34)
-section("れんしゅう","自分で ざっくり→たしかめ！")
-for A,B in [(192,24),(290,39),(109,39),(72,26)]: short(A,B)
+section("① 359 ÷ 58","ワークシートの①"); question(359,58); bars(359,58); e=estimate(359,58); check(359,58,e); answer(359,58); hissan(359,58,"①",5)
+section("② 180 ÷ 34","予想がズレる例"); question(180,34); bars(180,34); e=estimate(180,34); check(180,34,e); answer(180,34); hissan(180,34,"②",5)
+section("③〜⑫","ざっくり予想 → 筆算 → たしかめ")
+nums="③④⑤⑥⑦⑧⑨⑩⑪⑫"
+for n_,(A,B) in zip(nums,[(635,79),(101,25),(259,37),(400,58),(172,26),(191,24),(100,28),(145,29),(272,39),(190,28)]):
+    q=A//B; e=rnd(A)//rnd(B)
+    im,d=new(); text(d,(W/2,100),n_,60,ORANGE); text(d,(W/2,250),f"{A} ÷ {B}",120,BLUE)
+    text(d,(W/2,420),f"ざっくり {rnd(A)} ÷ {rnd(B)} → だいたい {e}回",46)
+    text(d,(W/2,520),"まず自分で予想してみよう！",40,ORANGE); save(im,7)
+    if e!=q:
+        im,d=new(); text(d,(W/2,250),f"予想の {e} から {q} に ちょうせい！",54,RED)
+        text(d,(W/2,380),f"{B} × {e} = {B*e}" + ("  → 大きすぎ！" if B*e>A else f"  → あまり {A-B*e} が {B} 以上、まだ入る！"),46,RED); save(im,6)
+    hissan(A,B,n_,4)
 outro()
 with open(os.path.join(OUT,"list.txt"),"w") as f:
     for p,s in scenes: f.write(f"file '{p}'\nduration {s}\n")
