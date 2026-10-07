@@ -67,10 +67,16 @@
  {
   "id": "us-01",
   "c": "us",
-  "eye": "smile",
+  "eye": "nikkori",
+  "thick": 1,
+  "r": 75,
   "tilt": -12,
-  "dy": -2,
+  "dx": -6,
+  "dy": 0,
   "sym": "spark",
+  "ex": 0.38,
+  "ey": -0.02,
+  "halo": 1,
   "lines": [
    "最高！"
   ]
@@ -78,11 +84,16 @@
  {
   "id": "us-02",
   "c": "us",
-  "eye": "smile",
+  "eye": "majime",
+  "thick": 1,
+  "r": 75,
   "tilt": 14,
-  "dx": -8,
+  "dx": -6,
   "dy": 4,
   "sym": "exclaim",
+  "ex": 0.38,
+  "ey": -0.02,
+  "halo": 1,
   "lines": [
    "ナイス！"
   ]
@@ -90,10 +101,17 @@
  {
   "id": "us-03",
   "c": "us",
-  "eye": "normal",
+  "eye": "hotto",
+  "thick": 1,
+  "r": 75,
   "tilt": -6,
-  "dy": -4,
+  "dx": -6,
+  "dy": 0,
+  "sq": 0.06,
   "sym": "spark",
+  "ex": 0.38,
+  "ey": -0.02,
+  "halo": 1,
   "lines": [
    "おはよう！"
   ]
@@ -101,12 +119,17 @@
  {
   "id": "us-04",
   "c": "us",
-  "eye": "smile",
+  "eye": "nikkori",
+  "thick": 1,
+  "r": 75,
   "tilt": 18,
-  "dx": -14,
+  "dx": -10,
   "dy": 6,
   "sq": -0.04,
   "sym": "speed",
+  "ex": 0.38,
+  "ey": -0.02,
+  "halo": 1,
   "lines": [
    "いっしょに",
    "行こう！"
@@ -115,10 +138,16 @@
  {
   "id": "de-01",
   "c": "de",
-  "eye": "normal",
+  "eye": "majime",
+  "thick": 1,
+  "r": 75,
   "tilt": 0,
+  "dx": 0,
   "dy": 0,
   "sym": "exclaim",
+  "ex": 0,
+  "ey": 0,
+  "halo": 1,
   "lines": [
    "5分前に",
    "着いてます"
@@ -127,10 +156,16 @@
  {
   "id": "de-02",
   "c": "de",
-  "eye": "normal",
+  "eye": "nikkori",
+  "thick": 1,
+  "r": 75,
   "tilt": -4,
+  "dx": 0,
   "dy": 0,
   "sym": "check",
+  "ex": 0,
+  "ey": 0,
+  "halo": 1,
   "lines": [
    "了解、",
    "きっちりやる"
@@ -139,10 +174,16 @@
  {
   "id": "de-03",
   "c": "de",
-  "eye": "normal",
+  "eye": "majime",
+  "thick": 1,
+  "r": 75,
   "tilt": 6,
+  "dx": 0,
   "dy": 2,
   "sym": "check",
+  "ex": 0,
+  "ey": 0,
+  "halo": 1,
   "lines": [
    "確認",
    "したよ"
@@ -151,12 +192,17 @@
  {
   "id": "de-04",
   "c": "de",
-  "eye": "closed",
+  "eye": "hotto",
+  "thick": 1,
+  "r": 75,
   "tilt": -14,
   "dx": 8,
   "dy": 8,
   "sq": 0.04,
   "sym": "zzz",
+  "ex": 0,
+  "ey": 0,
+  "halo": 1,
   "lines": [
    "おやすみ",
    "ちゃんと寝る"
@@ -165,10 +211,15 @@
  {
   "id": "pw-01",
   "c": "pw",
-  "eye": "smile",
+  "eye": "nikkori",
+  "thick": 1,
+  "r": 75,
   "tilt": -8,
+  "dx": 0,
   "dy": 2,
   "sym": "note",
+  "ex": -0.14,
+  "ey": -0.02,
   "lines": [
    "ゆっくりで",
    "いいよ"
@@ -177,12 +228,16 @@
  {
   "id": "pw-02",
   "c": "pw",
-  "eye": "closed",
+  "eye": "hotto",
+  "thick": 1,
+  "r": 75,
   "tilt": 10,
-  "dx": -8,
+  "dx": -6,
   "dy": 6,
   "sq": 0.04,
   "sym": "none",
+  "ex": -0.14,
+  "ey": -0.02,
   "lines": [
    "まあ",
    "いっか"
@@ -191,12 +246,16 @@
  {
   "id": "pw-03",
   "c": "pw",
-  "eye": "closed",
+  "eye": "hotto",
+  "thick": 1,
+  "r": 75,
   "tilt": -16,
   "dx": 8,
   "dy": 10,
   "sq": 0.06,
   "sym": "zzz",
+  "ex": -0.14,
+  "ey": -0.02,
   "lines": [
    "おつかれ、",
    "ひと休み"
@@ -205,10 +264,15 @@
  {
   "id": "pw-04",
   "c": "pw",
-  "eye": "smile",
+  "eye": "nikkori",
+  "thick": 1,
+  "r": 75,
   "tilt": -10,
+  "dx": 0,
   "dy": 0,
   "sym": "hearts",
+  "ex": -0.14,
+  "ey": -0.02,
   "lines": [
    "ありが",
    "とう〜"
